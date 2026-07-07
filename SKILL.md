@@ -75,7 +75,7 @@ Trả JSON có `flags[]` + `go_no_go`. Xử lý theo `go_no_go`:
 1. Hỏi/confirm (1 câu/lần, multi-choice khi có thể):
    - Ticker + tên công ty (verify exchange NYSE/NASDAQ)
    - Kỳ phân tích: 5y hay 10y (default 10y — hoặc theo preflight recommendation nếu IPO ngắn)
-   - Vốn đầu tư tham chiếu: default $33,000 (user override)
+   - Vốn đầu tư tham chiếu: **HỎI USER** (KHÔNG default $33,000 — mỗi nhà đầu tư có vốn khác nhau. Nếu user không trả lời → placeholder [VỐN_CỦA_BẠN])
    - Deploy Vercel hay chỉ local? (default deploy)
    - Có chạy technical (ACTIVE + PROFILE) không? (default có — nhưng nếu ILLIQUID_SMALL_CAP → đề xuất bỏ)
    - Có chạy analyst synthesis không? (default có)
