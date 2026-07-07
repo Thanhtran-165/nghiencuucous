@@ -42,21 +42,57 @@ Khác với báo cáo cố định, skill này **KHÔNG có "special insight" ha
 **Entry checkpoint**: user gõ `/us-equity-research [TICKER]` với optional flags.
 **Exit checkpoint**: brief document chứa (ticker, period, capital, deploy?, technical?, analyst?, sector GICS, archetype, frames confirmed). User phải OK brief trước Phase 1.
 
+#### Step 0: PREFLIGHT CHECK (mới — chống silent failure)
+
+Chạy **trước** khi hỏi scope:
+```bash
+python3 scripts/preflight.py [TICKER] --period [10|5]
+```
+
+Trả JSON có `flags[]` + `go_no_go`. Xử lý theo `go_no_go`:
+
+| go_no_go | Ý nghĩa | Action |
+|---|---|---|
+| **GO** | Không flag nguy hiểm | Chạy tiếp Step 1 bình thường |
+| **WARN** | 1-2 flag (công ty lỗ / ADR / history thiếu / ticker đặc biệt) | Present flags cho user → chọn path → Step 1 |
+| **STOP** | ≥3 flag nguy hiểm | Dừng, báo user, hỏi có continue không |
+
+**Các flag quan trọng + path xử lý:**
+
+| Flag | Path đề xuất |
+|---|---|
+| `NEGATIVE_EARNINGS` (EPS âm) | Valuation = path B: EV/Revenue + EV/Gross Profit + Rule of 40 thay P/E. Khai báo rõ "P/E không áp dụng". |
+| `FOREIGN_CURRENCY_OR_ADR` (NVO, TSM, ASML, BABA) | Verify financials gốc vs Yahoo. Label currency RÕ ở hero + mọi bảng. Đừng mặc định USD. |
+| `HISTORY_TOO_SHORT` (IPO < period) | Đề xuất giảm period. Flag "history limited to Xy" trong báo cáo. |
+| `TICKER_HAS_SPECIAL_CHAR` (BRK.B, BF.B) | Folder name = sanitize (brk-b-deploy). Ticker yfinance giữ nguyên. |
+| `ILLIQUID_SMALL_CAP` (< $100M) | Flag rõ. Cân nhắc bỏ technical PROFILE (data không đủ). |
+| `YFINANCE_DATA_MISSING` (critical field thiếu) | Verify qua SEC EDGAR trước. Có thể Yahoo đổi API. |
+
+**Đây là kỹ thuật "blindspot pass"** — áp dụng tinh thần bài Thariq: surface unknown unknowns TRƯỚC khi build, không phải sau khi báo cáo vỡ.
+
+#### Step 1: Hỏi/confirm scope (chỉ SAU preflight OK)
+
 1. Hỏi/confirm (1 câu/lần, multi-choice khi có thể):
    - Ticker + tên công ty (verify exchange NYSE/NASDAQ)
-   - Kỳ phân tích: 5y hay 10y (default 10y)
+   - Kỳ phân tích: 5y hay 10y (default 10y — hoặc theo preflight recommendation nếu IPO ngắn)
    - Vốn đầu tư tham chiếu: default $33,000 (user override)
    - Deploy Vercel hay chỉ local? (default deploy)
-   - Có chạy technical (ACTIVE + PROFILE) không? (default có)
+   - Có chạy technical (ACTIVE + PROFILE) không? (default có — nhưng nếu ILLIQUID_SMALL_CAP → đề xuất bỏ)
    - Có chạy analyst synthesis không? (default có)
 
-2. Quick research ban đầu (subagent, ~2 phút): WebSearch tên công ty + sector GICS + "business model" → xác định archetype.
+#### Step 2: Quick research ban đầu
 
-3. **Archetype routing**: đọc `references/insight_frames.md` section "Archetype router" → propose 2-4 insight frames default cho sector đó. Present cho user:
-   - "Sector X (GICS) → default frames: [frame A, frame B, frame C]. Bạn muốn giữ, thêm, bớt, hay tự đặt câu hỏi riêng?"
-   - User confirm/edit → ghi vào brief document.
+Subagent (~2 phút): WebSearch tên công ty + sector GICS + "business model" → xác định archetype.
 
-4. **Output Phase 0**: brief document (scope + capital + period + deploy? + insight frames confirmed).
+#### Step 3: Archetype routing
+
+Đọc `references/insight_frames.md` section "Archetype router" → propose 2-4 insight frames default cho sector đó. Present cho user:
+- "Sector X (GICS) → default frames: [frame A, frame B, frame C]. Bạn muốn giữ, thêm, bớt, hay tự đặt câu hỏi riêng?"
+- User confirm/edit → ghi vào brief document.
+
+#### Step 4: Output Phase 0
+
+Brief document: scope + capital + period + deploy? + insight frames confirmed + **preflight flags** (ghi rõ nếu có WARN).
 
 ### Phase 1: Data research (subagent song song — 4 streams)
 
@@ -74,7 +110,7 @@ Khác với báo cáo cố định, skill này **KHÔNG có "special insight" ha
 | **(c) Fundamentals 10 năm** | (yfinance đã lấy annual statements — bổ sung Macrotrends/StockAnalysis nếu cần longer history) | Revenue, op income, net income, EPS diluted, OCF, capex, FCF, debt, diluted shares — 10 năm (hoặc 5 năm nếu `--period 5y`) |
 | **(d) Analyst + news** | TipRanks/MarketBeat (consensus + targets), WSJ/Reuters/FT/CNBC/Bloomberg (deal news), SemiAnalysis/Stratechery (independent), Fitch/S&P/Moody's (credit) | Consensus rating, avg/high/low target, bull points, bear points, recent catalysts, short interest, institutional ownership |
 
-**Áp dụng `references/data_pitfalls.md`**: 7 bẫy data US (GAAP vs non-GAAP, fiscal year, SBC dilution, adjusted vs reported, share class A/B/C, net income derived vs reported, aggregator discrepancy). Cross-check multi-source cho số liệu quan trọng.
+**Áp dụng `references/data_pitfalls.md`**: 9 bẫy data US (GAAP vs non-GAAP, fiscal year, SBC dilution, adjusted vs reported, share class A/B/C, net income derived vs reported, aggregator discrepancy, **ngoại tệ/ADR, lỗ/negative earnings**). Cross-check multi-source cho số liệu quan trọng.
 
 **Output Phase 1**: structured JSON per stream. Flag mọi số NOT FOUND / NOT VERIFIED — KHÔNG bịa.
 
@@ -218,6 +254,10 @@ Nếu không có flag → chạy full pipeline mặc định (insight frames aut
 
 12. **Counterparty risk underweighted** — Case ORCL: OpenAI loss ~$20.9B/năm, Oracle raise vốn ngoài finance capex cho OpenAI. Đây là concentration risk thật, phải phân tích honest.
 
+13. **Preflight check BẮT BUỘC** (mới, sau bài Thariq 7/2026) — Chạy `scripts/preflight.py` ở Phase 0 Step 0 TRƯỚC khi hỏi scope. Surface 3 silent-failure cases: (a) công ty lỗ → P/E vô nghĩa, (b) ADR/ngoại tệ → lẫn đơn vị, (c) IPO ngắn → history thiếu. Không chạy preflight = chưa biết skill có vỡ không trước khi build. Case test: SNOW (EPS -$3.51 → WARN), NVO (ADR Đan Mạch → WARN), BRK.B (ticker dấu chấm → folder sanitize).
+
+14. **ADR detection phức tạp hơn nghĩ** — Yahoo field `currency` có thể đã convert ADR sang USD (case NVO: currency=USD nhưng country=Denmark). Phải check CẢ currency + country. Financials gốc trong 10-K vẫn là local currency (DKK/EUR/TWD). Verify Yahoo number vs 10-K — nếu lệch hệ số lớn = sai tỷ giá.
+
 ## Tham khảo (progressive disclosure)
 
 SKILL.md giữ lean (<500 dòng). Detail nặng đọc reference khi cần:
@@ -226,7 +266,7 @@ SKILL.md giữ lean (<500 dòng). Detail nặng đọc reference khi cần:
 |---|---|---|
 | `references/insight_frames.md` | **Phase 0 + 2** (BẮT BUỘC) — 8 frames + archetype router | ⭐⭐⭐ CORE |
 | `references/data_sources.md` | Phase 1 — 10 source categories + URL pattern + fallback | ⭐⭐ |
-| `references/data_pitfalls.md` | Phase 1 — 7 bẫy data US | ⭐⭐ |
+| `references/data_pitfalls.md` | Phase 1 — 9 bẫy data US | ⭐⭐ |
 | `references/valuation_formulas.md` | Phase 3 section 5+8 — P/E P/B avg/median, DCF, percentile | ⭐⭐ |
 | `references/technical_methodology.md` | Phase 3 section 18-19 — ACTIVE + PROFILE (Yahoo data) | ⭐⭐ |
 | `references/analyst_research.md` | Phase 3 section 20 — bull/bear synthesis pattern | ⭐ |
@@ -237,6 +277,7 @@ SKILL.md giữ lean (<500 dòng). Detail nặng đọc reference khi cần:
 | `assets/dashboard_example_orcl.html` | Phase 5 — **reference example** ORCL hoàn chỉnh (depth benchmark) | ⭐⭐⭐ CORE |
 | `assets/dashboard_template.html` | (legacy) ORCL report tokenized — superseded by skeleton | ⭐ |
 | `scripts/fetch_us_data.py` | Phase 1 — **⭐ PRIMARY data fetcher** (yfinance, 13 sections, 3 giây) | ⭐⭐⭐ CORE |
+| `scripts/preflight.py` | **Phase 0 Step 0** — kiểm tra công ty lỗ / ADR / IPO ngắn / ticker đặc biệt TRƯỚC khi build | ⭐⭐⭐ CORE (chống silent failure) |
 
 ## Lưu ý thực thi
 

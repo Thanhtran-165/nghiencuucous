@@ -1,4 +1,4 @@
-# Data Pitfalls — 7 bẫy data cổ phiếu Mỹ
+# Data Pitfalls — 9 bẫy data cổ phiếu Mỹ
 
 > 7 lỗi common khi research US stock. Áp dụng ở Phase 1, cross-check mọi số liệu quan trọng. Đọc SKILL.md Lessons Learned #3, #4, #5, #10, #11 cho case studies.
 
@@ -122,9 +122,41 @@
 | Market cap | 1-2% | Recompute = price × shares |
 | Debt | 5-10% | "Long-term" vs "total borrowings" scope |
 
-## Anti-pattern
+## Bẫy 8: Ngoại tệ / ADR (foreign listing)
 
-- ❌ Lấy 1 số từ 1 nguồn không cross-check
-- ❌ Report net income mà không flag "(derived)"
-- ❌ Dùng non-GAAP "underlying" như main metric mà không flag SBC add-back
-- ❌ Lộn FY với CY trong YoY comparison
+**Vấn đề**: Công ty nước ngoài niêm yết ADR trên sàn Mỹ (NYSE/NASDAQ). Yahoo Finance trả price/market cap = USD, NHƯNG financials gốc trong 10-K/annual report = local currency (DKK, EUR, TWD, CNY, GBP).
+
+**Examples**:
+- **NVO** (Novo Nordisk, Đan Mạch): currency Yahoo = USD, NHƯNG 10-K gốc = DKK (tỷ giá ~7 DKK/USD)
+- **TSM** (TSMC, Đài Loan): ADR, 10-K gốc = TWD
+- **ASML** (Hà Lan): ADR, 10-K gốc = EUR
+- **BABA** (Alibaba): ADR, 10-K gốc = CNY/RMB
+- **SHEL, BP**: EUR/GBP
+
+**Cách xử lý**:
+- Phase 0 Step 0 preflight.py sẽ flag `FOREIGN_CURRENCY_OR_ADR` qua check `currency != USD` HOẶC `country != United States`
+- **Verify financials gốc vs Yahoo**: lấy revenue từ 10-K gốc (local currency) + tỷ giá → compare với Yahoo number. Nếu lệch hệ số lớn (vd 7×) → Yahoo đã convert (OK) hoặc Yahoo sai (verify lại)
+- **Label RÕ ở hero + mọi bảng**: "Doanh thu FY2026: 232B DKK (~$33B theo tỷ giá X/X/2026)"
+- **Tỷ giá thay đổi**: nếu so sánh YoY, dùng cùng tỷ giá hoặc constant currency
+
+## Bẫy 9: Lỗ / negative earnings (P/E vô nghĩa)
+
+**Vấn đề**: Công ty đang trong giai đoạn tăng trưởng (growth company) hoặc suy thoái → EPS âm → **P/E TTM âm hoặc None → vô nghĩa**. Dùng P/E percentile / 3-zone verdict = misleading.
+
+**Examples**:
+- **SNOW** (Snowflake): EPS TTM -$3.51 → P/E = N/A (Yahoo None). Nếu skill tính P/E = price/(-3.51) = số âm → percentile sai hoàn toàn.
+- **PLTR** (Palantir): gần hòa vốn, có kỳ lỗ có kỳ lãi → P/E volatile vô nghĩa
+- **UBER, LYFT, RIVN, LCID, DDOG, NET, MDB, CRWD** (growth) — lỗ nhiều năm
+
+**Cách xử lý**:
+- Phase 0 Step 0 preflight.py sẽ flag `NEGATIVE_EARNINGS`
+- **Path B (Valuation cho growth)**: dùng thay thế P/E:
+  - **EV/Revenue** (Enterprise Value / Sales) — phổ biến nhất cho SaaS
+  - **EV/Gross Profit** — khi margin chưa optimal
+  - **Rule of 40** = growth rate % + margin % (vd 40% growth + 0% margin = 40 — passed)
+  - **P/S** (Price/Sales) — đơn giản hơn EV/Revenue
+  - **PEG dựa forward EPS** — nếu dự phóng lãi trong 1-2 năm
+- **Flag RÕ**: "Công ty đang tăng trưởng, P/E không áp dụng. Dùng EV/Revenue + Rule of 40."
+- **KHÔNG** tính P/E percentile cho công ty lỗ — chỉ confuse
+
+## Anti-pattern

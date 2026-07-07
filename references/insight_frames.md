@@ -511,3 +511,68 @@ Skill cũng detect market regime (S&P 500 vs 200-day MA, VIX) để tune tone:
 | 10 | Secular tailwind / demographic | Mega-trend (aging, decarbon) | Best way to play trend? |
 | 11 | M&A / conglomerate discount | Multi-segment, sum-of-parts | Discount justified hay opportunity? |
 | 12 | Secular decline / disruption | Legacy industry disrupted | Khi nào collapse? FCF still value? |
+
+---
+
+## H. Commodity-specific metrics extensions (mới sau NEM test 7/2026)
+
+> ⭐ **Học từ NEM**: Archetype router hiện tại không có sector match cho gold mining (Basic Materials).
+> Skill dùng Edge Case Handler + thesis keyword để chọn frames — OK NHƯNG frames template chung chung,
+> không có指引 cho **metrics đặc thù commodity**. Section này bổ sung.
+
+### H.1 Gold / metals mining (NEM, AEM, B, KGC, AU, FCX)
+
+**Metrics cần bổ sung vào insight + valuation sections:**
+
+| Metric | Vì sao quan trọng | NEM benchmark |
+|---|---|---|
+| **AISC ($/oz)** | All-In Sustaining Cost = chi phí thật 1 oz. Quan trọng nhất cho margin analysis | $1,358 (2025), guide $1,680 (2026) |
+| **By-product vs co-product AISC** | By-product trừ doanh thu phụ (đồng/bạc) khỏi cost → thấp hơn. Cùng baseline khi so peer | Gap $251/oz cho NEM |
+| **Reserves (Proven & Probable, Moz)** | Trữ lượng xác định. Tương đương RPO của SaaS nhưng hữu hạn | 118.2Moz (~20 năm life) |
+| **Reserve life (năm)** | Reserves / annual production. >10 năm = an toàn | ~20 năm (NEM) |
+| **Grade (g/t)** | Hàm lượng vàng trong quặng. Decline −7-13%/decade ngành | — |
+| **Production attributable (Moz)** | Sản lượng attributable (sau JV%) | 5.9Moz (NEM 2025) |
+| **P/NAV (Price/Net Asset Value)** | NPV trữ lượng tại giá vàng thận trọng. **Chuẩn nhất cho miner**, P/E bị chu kỳ méo | ~25% discount (NEM) |
+| **P/FCF** | Price / Free Cash Flow. FCF > Net income cho miner (D&A lớn) | FCF yield ~7% (NEM) |
+
+**Frames ưu tiên cho gold mining** (Priority khi Phase 0 archetype routing):
+1. **Frame 6 (Cyclicality)** — gold price cycle, "1996 hay 1999?" analogy
+2. **Frame 2 (Margin defensibility)** — AISC quartile, by-product structure
+3. **Frame 11 (M&A/sum-of-parts)** — reserves acquisition, portfolio optimization
+
+**⚠️ Đặc biệt chú ý:**
+- **P/E = CYCLICAL VALUE TRAP**: P/E thấp ở đỉnh giá vàng (EPS cao), N/A ở đáy (EPS âm). Dùng P/NAV + EV/EBITDA + FCF yield thay P/E.
+- **AISC scale với giá vàng**: royalty % structure → AISC tự tăng khi giá tăng, ăn mòn đòn bẩy
+- **By-product credit risk**: nếu giá đồng/bạc giảm, AISC by-product tăng
+- **Reserve depletion**: mỗi năm khai thác → phải explore/acquire bổ sung. Grade decline structural.
+- **Streaming/royalty (WPM, FNV) là model khác hoàn toàn**: AISC ~$0, margin >75%, P/E 30× — không compare trực tiếp với miners.
+
+### H.2 Oil & gas (XOM, CVX, COP, OXY, EOG, PXD)
+
+**Metrics cần bổ sung:**
+
+| Metric | Vì sao quan trọng |
+|---|---|
+| **WTI / Brent price** | Spot price driver chính |
+| **Production (boe/day)** | Barrel of oil equivalent |
+| **Reserves (Bboe)** | Proved reserves |
+| **Reserve replacement ratio** | % production replaced by new reserves/năm. >100% = healthy |
+| **Lifting cost ($/boe)** | Cost khai thác 1 barrel |
+| **Finding & Development cost ($/boe)** | Cost phát hiện + phát triển mỏ mới |
+| **Cash flow from operations / barrel** | Margin thật |
+| **EV/EBITDA, P/CF** | Chuẩn hơn P/E (D&A lớn) |
+| **Refining crack spread** (integrated) | Margin lọc dầu |
+
+**Frames ưu tiên**: 6 (cyclicality — oil price), 2 (margin — lifting cost quartile), 11 (M&A).
+
+### H.3 Agriculture / soft commodities (ADM, BG, INGR)
+
+Ít phổ biến cho retail investor. Bỏ qua trong scope này.
+
+### H.4 Khi gặp sector commodity mới không có ở đây
+
+**Handler Phase 0**: nếu archetype routing không match:
+1. Flag "commodity sector, không có metric guide cụ thể"
+2. Hỏi user: "Công ty có metric đặc thù nào (AISC, lifting cost, fleet utilization...) cần track?"
+3. Default: dùng P/CF + EV/EBITDA + Frame 6 (cyclicality) + Frame 2 (margin)
+4. Luôn flag: **"P/E cho commodity producer có thể là bẫy chu kỳ — verify EPS ở đâu trong cycle"**

@@ -184,6 +184,19 @@ a:hover{text-decoration:underline}
 .qbadge{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:0.3px;font-family:var(--font-mono)}
 .qbadge-HIGHQ{background:var(--green-soft);color:var(--green)} .qbadge-MEDQ{background:var(--amber-soft);color:var(--amber)} .qbadge-LOWQ{background:var(--red-soft);color:var(--red)}
 
+/* ---------- disclaimer block (cuối báo cáo, trước source) ---------- */
+.disclaimer{border-radius:var(--radius);padding:22px 24px;border:1px solid var(--border);border-left:4px solid var(--amber);background:rgba(245,166,35,0.04);margin:24px 0 32px}
+.disclaimer-title{font-size:14px;font-weight:700;color:var(--amber);margin-bottom:8px}
+.disclaimer-title.sub{font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-top:16px;color:var(--text-dim)}
+.disclaimer p{font-size:13px;color:var(--text-dim);line-height:1.65;margin:8px 0}
+.disclaimer ol,.disclaimer ul{margin:8px 0 8px 4px;padding-left:22px}
+.disclaimer li{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:6px}
+.disclaimer li strong{color:var(--text)}
+.disclaimer-foot{margin-top:14px!important;padding-top:12px;border-top:1px solid var(--border);font-style:italic}
+.qlist{list-style:none!important;padding-left:0!important}
+.qlist li{display:flex;align-items:center;gap:10px}
+.qlist .qbadge{flex-shrink:0;min-width:54px;text-align:center}
+
 /* ---------- footer ---------- */
 footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--text-faint);font-size:11px;line-height:1.6}
 footer p{margin-bottom:6px}
@@ -563,6 +576,26 @@ a.xref:hover{background:var(--blue-soft);border-bottom-style:solid}
   </div>
   {{GLOSSARY_TOP_3}}
 </section>
+
+<!-- ============ DISCLAIMER (cho nhà đầu tư đọc trước khi ra quyết định) ============ -->
+<div class="disclaimer">
+  <div class="disclaimer-title">⚠️ Lưu ý cho nhà đầu tư</div>
+  <p>Báo cáo này do AI tổng hợp từ nhiều nguồn công khai. Mặc dù mỗi con số quan trọng đều có trích nguồn, <strong>AI có thể sai</strong> — nguồn lỗi, dữ liệu cũ, hoặc hiểu sai.</p>
+  <div class="disclaimer-title sub">3 kỷ luật khi đọc</div>
+  <ol>
+    <li><strong>Đếm nguồn.</strong> Mỗi số quan trọng (doanh thu, EPS, P/E, FCF) nên có ít nhất 2 nguồn độc lập khớp nhau. Chỉ 1 nguồn = chưa chắc.</li>
+    <li><strong>Số bất thường = dừng.</strong> Con số khiến bạn thấy "ồ hay" hoặc "ồ tệ" → Google 30 giây để đối chiếu. Đó là lúc dễ tin nhất và AI dễ sai nhất.</li>
+    <li><strong>Nếu là tiền của tôi.</strong> Trước khi quyết định, hỏi: "Tôi có dám đặt ${{CAPITAL_AMOUNT}} dựa trên con số này không?" Nếu chưa dám → verify thêm.</li>
+  </ol>
+  <div class="disclaimer-title sub">Nhãn chất lượng dữ liệu</div>
+  <p>Mỗi số có nhãn ở bảng Data Quality bên dưới:</p>
+  <ul class="qlist">
+    <li><span class="qbadge qbadge-HIGHQ">HIGHQ</span> nhiều nguồn chính thống khớp nhau</li>
+    <li><span class="qbadge qbadge-MEDQ">MEDQ</span> 1-2 nguồn, cần đối chiếu thêm</li>
+    <li><span class="qbadge qbadge-LOWQ">LOWQ</span> phỏng đoán, không nên đặt quyết định lớn dựa trên số này</li>
+  </ul>
+  <p class="disclaimer-foot">AI không thay thế phán đoán của bạn. Bạn là người ra quyết định cuối cùng với tiền của mình.</p>
+</div>
 
 <!-- ============ SECTION 22: SOURCE APPENDIX ============ -->
 <section id="sec-source" class="section">
