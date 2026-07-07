@@ -160,3 +160,14 @@
 - **KHÔNG** tính P/E percentile cho công ty lỗ — chỉ confuse
 
 ## Anti-pattern
+
+## Bẫy 10 (v2.2.4 — học từ CTD test VN): Báo cáo thiếu biểu đồ — visual gap
+
+**Dấu hiệu:** Báo cáo HTML có data tables NHƯNG không charts.
+
+**Cách phòng tránh:**
+1. Dashboard PHẢI có tối thiểu 10 charts (Revenue/LNST, capex/FCF, segment mix, P/E history, peer scatter, price+MA, RSI, drawdown, distribution, valuation summary)
+2. Verify `grep -c 'new Chart'` ≥ 10 trước deploy
+3. Chart data phải thật từ yfinance, không simulate
+
+**Rule:** Charts = phần visible nhất. Báo cáo không charts = thiếu chuyên nghiệp.
