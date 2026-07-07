@@ -1,0 +1,4 @@
+interface:
+  display_name: "US Equity Research"
+  short_description: "Phân tích đầy đủ CP Mỹ qua pipeline 7 phase + insight engine động"
+  default_prompt: "/us-equity-research AAPL"

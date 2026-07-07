@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="vi">
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ORCL · Oracle Corporation | Investment Evidence Pack (3–5 năm)</title>
+<meta name="description" content="Báo cáo nghiên cứu cổ phiếu Oracle (ORCL) — investment evidence pack cho nhà đầu tư 3–5 năm, dữ liệu FY2026, không khuyến nghị mua/bán.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Hybrid dark clean — Bloomberg-ish, accent kìm */
+  --bg-0:#0f1419; --bg-1:#13181f; --bg-2:#1a2029;
+  --card:#161b22; --card-2:#1c232d;
+  --border:rgba(255,255,255,0.08); --border-hot:rgba(245,166,35,0.45);
+  --text:#e6edf3; --text-dim:#8b949e; --text-faint:#565f6b;
+  --amber:#f5a623; --amber-soft:rgba(245,166,35,0.14);
+  --blue:#4a9eff; --blue-soft:rgba(74,158,255,0.14);
+  --green:#3fb950; --green-soft:rgba(63,185,80,0.14);
+  --red:#f85149; --red-soft:rgba(248,81,73,0.14);
+  --purple:#a78bfa; --purple-soft:rgba(167,139,250,0.14);
+  --grad-amber:linear-gradient(135deg,#f5a623 0%,#d48806 100%);
+  --grad-blue:linear-gradient(135deg,#4a9eff 0%,#2670c8 100%);
+  --font-sans:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-mono:'JetBrains Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  --radius:12px; --radius-sm:8px;
+  --chart-grid:rgba(255,255,255,0.05);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg-0);color:var(--text);font-family:var(--font-sans);line-height:1.55;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.mono{font-family:var(--font-mono);font-variant-numeric:tabular-nums}
+.pos{color:var(--green)} .neg{color:var(--red)} .neu{color:var(--amber)} .blue{color:var(--blue)} .dim{color:var(--text-dim)} .faint{color:var(--text-faint)}
+a{color:var(--blue);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ---------- chrome ---------- */
+.progress-bar{position:fixed;top:0;left:0;height:3px;width:0;background:var(--grad-amber);z-index:1000;transition:width .1s ease-out}
+.topnav{position:sticky;top:0;z-index:900;background:rgba(15,20,25,0.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--border)}
+.topnav-inner{max-width:1480px;margin:0 auto;padding:0 24px;display:flex;align-items:center;gap:4px;overflow-x:auto;scrollbar-width:thin;height:52px}
+.topnav-brand{display:flex;align-items:center;gap:8px;font-weight:700;font-size:13px;color:var(--text);white-space:nowrap;padding-right:16px;border-right:1px solid var(--border);margin-right:8px}
+.topnav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.topnav-link{font-size:12px;color:var(--text-dim);padding:6px 10px;border-radius:6px;white-space:nowrap;transition:all .15s;font-weight:500}
+.topnav-link:hover{color:var(--text);background:var(--card)}
+.topnav-link.active{color:var(--amber);background:var(--amber-soft)}
+.back-top{position:fixed;bottom:24px;right:24px;width:40px;height:40px;border-radius:50%;background:var(--card);border:1px solid var(--border);color:var(--text);font-size:18px;cursor:pointer;opacity:0;pointer-events:none;transition:all .2s;z-index:800}
+.back-top.visible{opacity:1;pointer-events:auto}
+.back-top:hover{border-color:var(--border-hot);color:var(--amber)}
+
+/* ---------- layout ---------- */
+.container{max-width:1480px;margin:0 auto;padding:24px 24px 80px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.grid-2-1{display:grid;grid-template-columns:2fr 1fr;gap:18px}
+.grid-1-2{display:grid;grid-template-columns:1fr 2fr;gap:18px}
+.section{margin-top:56px;scroll-margin-top:60px}
+.section-title{display:flex;align-items:center;gap:12px;margin:0 0 6px}
+.section-title .num{display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:28px;padding:0 8px;border-radius:6px;background:var(--amber);color:#1a1206;font-weight:700;font-size:13px;font-family:var(--font-mono)}
+.section-title h2{font-size:22px;font-weight:700;letter-spacing:-0.3px}
+.section-title .tag{font-size:10px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:3px 8px;border-radius:5px;color:#1a1206}
+.tag.amber{background:var(--amber)} .tag.blue{background:var(--blue)} .tag.green{background:var(--green)} .tag.red{background:var(--red)} .tag.purple{background:var(--purple)}
+.divider{flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent)}
+.section-sub{color:var(--text-dim);font-size:13px;margin:4px 0 20px;padding-left:40px}
+
+/* ---------- hero ---------- */
+.hero{background:linear-gradient(135deg,rgba(245,166,35,0.06),rgba(74,158,255,0.04));border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:24px;position:relative;overflow:hidden}
+.hero-top{display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+.ticker-badge{display:inline-flex;align-items:center;gap:8px;background:var(--grad-amber);color:#1a1206;padding:5px 14px;border-radius:999px;font-weight:700;font-size:12px;letter-spacing:0.5px}
+.disclaimer-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red-soft);color:var(--red);padding:4px 12px;border-radius:999px;font-weight:600;font-size:11px;border:1px solid rgba(248,81,73,0.3);margin-left:8px}
+.company-name{font-size:38px;font-weight:800;margin-top:14px;letter-spacing:-0.8px}
+.company-sub{color:var(--text-dim);margin-top:6px;font-size:14px}
+.price-block{text-align:right}
+.price-now{font-size:46px;font-weight:800;letter-spacing:-1px;font-family:var(--font-mono)}
+.price-now .ccy{font-size:20px;color:var(--text-dim);font-weight:500;margin-right:4px}
+.price-meta{margin-top:6px;color:var(--text-dim);font-size:12px}
+.price-meta .delta{font-weight:600;margin-left:6px}
+.kpi-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:28px}
+.kpi{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;transition:border-color .2s}
+.kpi:hover{border-color:var(--border-hot)}
+.kpi-label{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
+.kpi-value{font-size:22px;font-weight:700;margin-top:6px;font-family:var(--font-mono)}
+.kpi-delta{font-size:11px;margin-top:4px;font-weight:600}
+
+/* ---------- card ---------- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;position:relative;overflow:hidden}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:12px}
+.card-title{font-size:14px;font-weight:600}
+.card-sub{font-size:11px;color:var(--text-faint);margin-top:2px}
+.chart-wrap{position:relative;height:300px}
+.chart-wrap.sm{height:220px} .chart-wrap.lg{height:360px} .chart-wrap.xs{height:180px}
+
+/* ---------- table ---------- */
+.fin-table{width:100%;border-collapse:collapse;font-size:12.5px;font-family:var(--font-mono)}
+.fin-table th,.fin-table td{padding:8px 10px;text-align:right;border-bottom:1px solid var(--border)}
+.fin-table th:first-child,.fin-table td:first-child{text-align:left;font-family:var(--font-sans);font-weight:500;color:var(--text-dim)}
+.fin-table thead th{font-size:10.5px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);font-weight:600;border-bottom:1px solid var(--border)}
+.fin-table tbody tr:hover{background:rgba(255,255,255,0.02)}
+.fin-table .col-latest{background:var(--amber-soft);color:var(--amber);font-weight:700}
+.fin-table .row-strong td{font-weight:700;background:rgba(255,255,255,0.02)}
+.fin-table .row-total td{border-top:2px solid var(--border);font-weight:700}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius)}
+
+/* ---------- callout / highlight ---------- */
+.callout{border-radius:var(--radius);padding:16px 18px;border:1px solid var(--border);border-left:3px solid var(--amber);background:var(--card)}
+.callout.warn{border-left-color:var(--red)} .callout.good{border-left-color:var(--green)} .callout.info{border-left-color:var(--blue)} .callout.neu{border-left-color:var(--amber)}
+.callout-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.callout-body{font-size:13px;color:var(--text-dim);line-height:1.6}
+.callout-body strong{color:var(--text)}
+
+.exec-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px}
+
+/* ---------- metric stat ---------- */
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.stat-label{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.8px;font-weight:600}
+.stat-value{font-size:26px;font-weight:700;margin-top:4px;font-family:var(--font-mono)}
+.stat-meta{font-size:11px;color:var(--text-dim);margin-top:4px}
+.stat-verdict{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;margin-top:6px}
+.verdict-good{background:var(--green-soft);color:var(--green)} .verdict-warn{background:var(--amber-soft);color:var(--amber)} .verdict-danger{background:var(--red-soft);color:var(--red)}
+
+/* ---------- gauge ---------- */
+.gauge{position:relative;height:8px;background:var(--bg-2);border-radius:4px;margin-top:8px;overflow:hidden}
+.gauge-fill{position:absolute;top:0;left:0;height:100%;border-radius:4px}
+.gauge-marker{position:absolute;top:-3px;width:2px;height:14px;background:var(--text);border-radius:1px}
+
+/* ---------- ref / citation ---------- */
+.ref{display:inline-block;font-size:9px;font-weight:700;color:var(--blue);background:var(--blue-soft);padding:1px 5px;border-radius:4px;margin-left:2px;vertical-align:super;font-family:var(--font-mono);text-decoration:none;border:1px solid rgba(74,158,255,0.25)}
+.ref:hover{background:var(--blue);color:#0f1419;text-decoration:none}
+.refs{list-style:none;counter-reset:ref;padding-left:0}
+.refs li{counter-increment:ref;font-size:11.5px;color:var(--text-dim);padding:6px 0;border-bottom:1px dashed var(--border);display:flex;gap:8px;line-height:1.5}
+.refs li::before{content:counter(ref);font-family:var(--font-mono);font-weight:700;color:var(--blue);background:var(--blue-soft);padding:1px 6px;border-radius:4px;font-size:10px;height:fit-content;flex-shrink:0;border:1px solid rgba(74,158,255,0.2)}
+.refs li a{color:var(--text-dim);word-break:break-all}
+.refs li a:hover{color:var(--blue)}
+.refs .src-meta{color:var(--text-faint);font-size:10.5px;display:block;margin-top:2px}
+
+/* ---------- checklist ---------- */
+.check-list{list-style:none;padding:0}
+.check-list li{padding:10px 14px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px;font-size:13px}
+.check-list li:last-child{border-bottom:none}
+.check-box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--border);flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;margin-top:1px}
+.check-box.on{background:var(--green-soft);color:var(--green);border-color:var(--green)}
+.check-box.off{background:var(--amber-soft);color:var(--amber);border-color:var(--amber)}
+.check-list .q{flex:1}
+.check-list .hint{font-size:11px;color:var(--text-faint);margin-top:2px}
+
+/* ---------- risk matrix ---------- */
+.risk-table{width:100%;border-collapse:collapse;font-size:12px}
+.risk-table th,.risk-table td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+.risk-table th{font-size:10px;text-transform:uppercase;letter-spacing:0.5px;color:var(--text-faint);font-weight:600}
+.risk-table td:first-child{font-weight:600;color:var(--text)}
+.pill{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;text-transform:uppercase;letter-spacing:0.3px}
+.pill-l{background:var(--green-soft);color:var(--green)} .pill-m{background:var(--amber-soft);color:var(--amber)} .pill-h{background:var(--red-soft);color:var(--red)}
+
+/* ---------- scenario ---------- */
+.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.scenario-card{border-radius:var(--radius);padding:18px;border:1px solid var(--border)}
+.scenario-card.bull{border-top:3px solid var(--green)} .scenario-card.base{border-top:3px solid var(--amber)} .scenario-card.bear{border-top:3px solid var(--red)}
+.scenario-card h4{font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.scenario-card ul{list-style:none;padding:0;font-size:12px;color:var(--text-dim)}
+.scenario-card li{padding:4px 0;line-height:1.5}
+.scenario-card li::before{content:'›';color:var(--amber);margin-right:6px;font-weight:700}
+
+/* ---------- drawdown ---------- */
+.drawdown-table{width:100%;border-collapse:collapse;font-size:13px}
+.drawdown-table th,.drawdown-table td{padding:10px;border-bottom:1px solid var(--border);text-align:center}
+.drawdown-table th{font-size:10px;text-transform:uppercase;color:var(--text-faint);font-weight:600}
+.drawdown-table td:first-child{text-align:left;font-family:var(--font-mono);color:var(--red);font-weight:600}
+.drawdown-table td:last-child{text-align:left;font-family:var(--font-sans);color:var(--text-dim);font-size:12px}
+
+/* ---------- segment bar ---------- */
+.seg-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border)}
+.seg-row:last-child{border-bottom:none}
+.seg-name{width:200px;font-size:12.5px;font-weight:500;flex-shrink:0}
+.seg-bar{flex:1;height:24px;background:var(--bg-2);border-radius:5px;overflow:hidden;position:relative}
+.seg-bar-fill{height:100%;border-radius:5px;display:flex;align-items:center;padding-left:8px;font-size:10px;font-weight:700;color:#0f1419;font-family:var(--font-mono)}
+.seg-meta{width:90px;text-align:right;font-family:var(--font-mono);font-size:11px;flex-shrink:0}
+
+/* ---------- quality badge ---------- */
+.qbadge{display:inline-block;font-size:9.5px;font-weight:700;padding:2px 7px;border-radius:4px;letter-spacing:0.3px;font-family:var(--font-mono)}
+.qbadge-HIGHQ{background:var(--green-soft);color:var(--green)} .qbadge-MEDQ{background:var(--amber-soft);color:var(--amber)} .qbadge-LOWQ{background:var(--red-soft);color:var(--red)}
+
+/* ---------- footer ---------- */
+footer{margin-top:64px;padding-top:24px;border-top:1px solid var(--border);color:var(--text-faint);font-size:11px;line-height:1.6}
+footer p{margin-bottom:6px}
+.disclaimer{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--red);border-radius:var(--radius);padding:14px 18px;margin:16px 0;font-size:11.5px;color:var(--text-dim)}
+
+/* ---------- value chain stack ---------- */
+.vc-stack{display:flex;flex-direction:column;gap:6px;margin:14px 0}
+.vc-layer{display:grid;grid-template-columns:130px 1fr 90px 90px;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;background:var(--card-2);border:1px solid var(--border);font-size:12px;position:relative;transition:border-color .2s}
+.vc-layer.upstream-most{border-left:3px solid var(--red)}
+.vc-layer.upstream{border-left:3px solid var(--amber)}
+.vc-layer.oracle{border-left:3px solid var(--blue);background:rgba(74,158,255,0.06)}
+.vc-layer.downstream{border-left:3px solid var(--text-faint)}
+.vc-name{font-weight:600;color:var(--text)}
+.vc-name .sub{display:block;font-size:10.5px;color:var(--text-faint);font-weight:400;margin-top:2px}
+.vc-players{color:var(--text-dim);font-size:11.5px}
+.vc-rent{font-family:var(--font-mono);font-weight:700;font-size:11px;text-align:center}
+.vc-pillar{font-family:var(--font-mono);font-size:10.5px;text-align:center;font-weight:600}
+.vc-legend{display:flex;gap:16px;font-size:11px;color:var(--text-dim);margin-top:10px;flex-wrap:wrap}
+.vc-legend span{display:inline-flex;align-items:center;gap:6px}
+.vc-legend .swatch{width:10px;height:10px;border-radius:2px;display:inline-block}
+
+/* ---------- rent location gauge ---------- */
+.rent-bar{display:flex;height:28px;border-radius:6px;overflow:hidden;margin:12px 0;border:1px solid var(--border)}
+.rent-seg{display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#0f1419;font-family:var(--font-mono);padding:0 4px;text-align:center;line-height:1.1}
+.rent-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--text-faint);margin-bottom:4px;font-family:var(--font-mono)}
+
+/* ---------- barrier table ---------- */
+.barrier-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.barrier-table th,.barrier-table td{padding:9px 8px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+.barrier-table th{font-size:9.5px;text-transform:uppercase;letter-spacing:0.4px;color:var(--text-faint);font-weight:600}
+.barrier-table td.barrier-name{font-weight:600;color:var(--text);width:23%}
+.barrier-height{display:inline-flex;align-items:center;gap:2px}
+.barrier-bar{display:inline-block;width:8px;height:14px;background:var(--bg-2);border-radius:2px;margin-right:1px}
+.barrier-bar.on-red{background:var(--red)} .barrier-bar.on-amber{background:var(--amber)} .barrier-bar.on-green{background:var(--green)}
+.trend-up{color:var(--green)} .trend-down{color:var(--red)} .trend-flat{color:var(--text-dim)}
+
+/* ---------- dependency matrix ---------- */
+.dep-matrix{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin:14px 0;font-size:11.5px}
+.dep-matrix>div{padding:10px 12px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.dep-matrix>div:nth-child(3n){border-right:none}
+.dep-matrix>div:nth-last-child(-n+3){border-bottom:none}
+.dep-matrix .head{background:var(--card-2);font-weight:700;font-size:10.5px;text-transform:uppercase;letter-spacing:0.4px;color:var(--text-faint)}
+.dep-layer{font-weight:600;color:var(--text)}
+.dep-verdict{font-weight:600}
+.lock-high{color:var(--green)} .lock-med{color:var(--amber)} .lock-low{color:var(--red)}
+
+/* ---------- technical score ---------- */
+.tech-score-card{display:flex;align-items:center;gap:18px;padding:18px;border-radius:var(--radius);background:linear-gradient(135deg,var(--card),var(--card-2));border:1px solid var(--border);margin-bottom:16px}
+.tech-score-num{font-size:48px;font-weight:800;font-family:var(--font-mono);line-height:1;min-width:80px;text-align:center}
+.tech-verdict-pill{display:inline-block;font-size:11px;font-weight:700;padding:5px 14px;border-radius:999px;text-transform:uppercase;letter-spacing:0.5px;margin-top:4px}
+.verdict-strong-sell{background:var(--red-soft);color:var(--red);border:1px solid rgba(248,81,73,0.4)}
+.verdict-sell{background:rgba(248,81,73,0.2);color:var(--red)}
+.verdict-hold{background:var(--amber-soft);color:var(--amber)}
+.verdict-buy{background:rgba(63,185,80,0.2);color:var(--green)}
+.verdict-strong-buy{background:var(--green-soft);color:var(--green);border:1px solid rgba(63,185,80,0.4)}
+.tech-score-bar{flex:1;height:14px;background:linear-gradient(90deg,var(--red) 0%,var(--amber) 50%,var(--green) 100%);border-radius:7px;position:relative;min-width:200px}
+.tech-score-marker{position:absolute;top:-4px;width:4px;height:22px;background:var(--text);border-radius:2px;transform:translateX(-50%)}
+.tech-score-labels{display:flex;justify-content:space-between;font-size:9.5px;color:var(--text-faint);font-family:var(--font-mono);margin-top:4px}
+
+.signal-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.signal-cell{background:var(--bg-2);border-radius:7px;padding:10px;font-size:11.5px;border-left:3px solid var(--border)}
+.signal-cell.bull{border-left-color:var(--green)} .signal-cell.bear{border-left-color:var(--red)} .signal-cell.neut{border-left-color:var(--amber)}
+.signal-cell .sig-name{font-weight:600;color:var(--text);font-size:11px}
+.signal-cell .sig-val{font-family:var(--font-mono);color:var(--text-dim);margin-top:2px;font-size:10.5px}
+
+/* ---------- candlestick mini ---------- */
+.candle-mini-wrap{position:relative;height:280px;margin:12px 0}
+
+/* ---------- non-advice footer (PROFILE mode) ---------- */
+.non-advice-panel{background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.25);border-left:3px solid var(--amber);border-radius:var(--radius);padding:14px 18px;margin-top:16px}
+.non-advice-panel h4{font-size:12px;text-transform:uppercase;letter-spacing:0.5px;color:var(--amber);margin-bottom:8px;font-weight:700}
+.non-advice-panel ul{list-style:none;padding:0;font-size:11.5px;color:var(--text-dim);line-height:1.65}
+.non-advice-panel li{padding:3px 0;padding-left:16px;position:relative}
+.non-advice-panel li::before{content:'›';position:absolute;left:0;color:var(--amber)}
+
+/* ---------- analyst table ---------- */
+.analyst-table{width:100%;border-collapse:collapse;font-size:11.5px}
+.analyst-table th,.analyst-table td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border);vertical-align:top}
+.analyst-table th{font-size:9.5px;text-transform:uppercase;letter-spacing:0.4px;color:var(--text-faint);font-weight:600}
+.analyst-table td.firm{font-weight:600;color:var(--text)}
+.analyst-table td.target{font-family:var(--font-mono);font-weight:600}
+.analyst-table td.thesis{font-size:11px;color:var(--text-dim);line-height:1.5}
+.rating-buy{color:var(--green);font-weight:600} .rating-hold{color:var(--amber);font-weight:600} .rating-sell{color:var(--red);font-weight:600}
+
+/* ---------- glossary ---------- */
+.glossary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}
+.gloss-item{background:var(--card-2);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:8px;padding:10px 12px;font-size:12px}
+.gloss-term{font-weight:700;color:var(--blue);font-family:var(--font-mono);font-size:11.5px}
+.gloss-def{color:var(--text-dim);margin-top:3px;line-height:1.5}
+
+/* ---------- plain-language callout (💡 Nói cách khác) ---------- */
+.callout.plain{border-left-color:var(--amber);background:rgba(245,166,35,0.05)}
+.callout.plain .callout-title{color:var(--amber)}
+.callout.plain .callout-body{color:var(--text);font-size:13px}
+.callout.plain .callout-body strong{color:var(--amber)}
+
+
+/* ---------- table of contents ---------- */
+.toc-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
+.toc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.toc-head h3{font-size:15px;font-weight:700}
+.toc-head .toc-hint{font-size:11px;color:var(--text-faint)}
+.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.toc-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--card-2);border:1px solid var(--border);border-radius:8px;text-decoration:none;transition:all .15s;cursor:pointer}
+.toc-item:hover{border-color:var(--border-hot);background:rgba(245,166,35,0.05);text-decoration:none}
+.toc-num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 6px;border-radius:5px;background:var(--amber);color:#1a1206;font-weight:700;font-size:11px;font-family:var(--font-mono);flex-shrink:0}
+.toc-text{display:flex;flex-direction:column;gap:1px;min-width:0}
+.toc-label{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
+.toc-desc{font-size:10.5px;color:var(--text-faint);line-height:1.4}
+a.xref{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue);font-weight:500}
+a.xref:hover{background:var(--blue-soft);border-bottom-style:solid}
+@media(max-width:1100px){.toc-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.toc-grid{grid-template-columns:1fr}}
+
+/* ---------- responsive ---------- */
+@media(max-width:1100px){
+  .grid-4,.grid-3{grid-template-columns:1fr 1fr}
+  .exec-grid{grid-template-columns:1fr 1fr}
+  .kpi-strip{grid-template-columns:repeat(3,1fr)}
+  .scenario-grid{grid-template-columns:1fr}
+  .grid-2-1,.grid-1-2{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .container{padding:16px 14px 60px}
+  .hero{padding:20px}
+  .company-name{font-size:28px}
+  .price-now{font-size:34px}
+  .grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+  .exec-grid{grid-template-columns:1fr}
+  .kpi-strip{grid-template-columns:1fr 1fr}
+  .topnav-brand{display:none}
+  .section-title h2{font-size:18px}
+  .price-block{text-align:left}
+}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<nav class="topnav" id="topnav">
+  <div class="topnav-inner">
+    <div class="topnav-brand"><span class="dot"></span>{{TICKER}} · Evidence Pack</div>
+    <a class="topnav-link" href="#sec-hero" data-target="sec-hero">Tổng quan</a>
+    <a class="topnav-link" href="#sec-exec" data-target="sec-exec">TL;DR</a>
+    <a class="topnav-link" href="#sec-biz" data-target="sec-biz">Business</a>
+    <a class="topnav-link" href="#sec-industry" data-target="sec-industry">Ngành</a>
+    <a class="topnav-link" href="#sec-history" data-target="sec-history">10 năm</a>
+    <a class="topnav-link" href="#sec-segment" data-target="sec-segment">Segment</a>
+    <a class="topnav-link" href="#sec-thesis" data-target="sec-thesis">Thesis</a>
+    <a class="topnav-link" href="#sec-valuation" data-target="sec-valuation">Định giá</a>
+    <a class="topnav-link" href="#sec-peer" data-target="sec-peer">Peer</a>
+    <a class="topnav-link" href="#sec-bs" data-target="sec-bs">BS & FCF</a>
+    <a class="topnav-link" href="#sec-risk" data-target="sec-risk">Rủi ro</a>
+    <a class="topnav-link" href="#sec-33k" data-target="sec-33k">{{CAPITAL_SHORT}} USD</a>
+    <a class="topnav-link" href="#sec-scenario" data-target="sec-scenario">Kịch bản</a>
+    <a class="topnav-link" href="#sec-checklist" data-target="sec-checklist">Checklist</a>
+    <a class="topnav-link" href="#sec-insight-1" data-target="sec-insight-1">★ Insight 1</a>
+    <!-- ADD nav links for insight-2/3/4 if more frames generated -->
+    <a class="topnav-link" href="#sec-tech" data-target="sec-tech">Technical</a>
+    <a class="topnav-link" href="#sec-analyst" data-target="sec-analyst">Analyst</a>
+    <a class="topnav-link" href="#sec-glossary" data-target="sec-glossary">📖 Thuật ngữ</a>
+    <a class="topnav-link" href="#sec-source" data-target="sec-source">Nguồn</a>
+  </div>
+</nav>
+<button class="back-top" id="backTop" aria-label="Lên đầu trang">↑</button>
+
+<div class="container">
+
+<!-- ============ TABLE OF CONTENTS (auto-generated) ============ -->
+{{TOC_SECTION}}
+
+<!-- ============ SECTION 1: HERO + KPI ============ -->
+<section id="sec-hero" class="section" style="margin-top:8px;scroll-margin-top:60px">
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <span class="ticker-badge">{{EXCHANGE}}: {{TICKER}}</span>
+        <span class="disclaimer-badge">KHÔNG khuyến nghị mua/bán</span>
+        <div class="company-name">{{COMPANY_NAME}}</div>
+        <div class="company-sub">{{COMPANY_SUB}}</div>
+        <div class="company-sub dim" style="margin-top:10px">{{HERO_INTRO}}</div>
+      </div>
+      <div class="price-block">
+        <div class="price-now"><span class="ccy">{{PRICE_CCY}}</span>{{PRICE}}</div>
+        <div class="price-meta">Giá đóng cửa <span class="dim">{{PRICE_DATE}}</span><span class="delta {{PRICE_DELTA_CLASS}}">{{PRICE_DELTA}}</span></div>
+        <div class="price-meta dim" style="margin-top:4px">{{PRICE_META}}</div>
+        <div class="price-meta dim" style="margin-top:4px">{{PRICE_META_2}}</div>
+      </div>
+    </div>
+    <div class="kpi-strip">{{KPI_STRIP}}</div>
+  </div>
+</section>
+
+<!-- ============ SECTION 2: EXECUTIVE SUMMARY ============ -->
+<section id="sec-exec" class="section">
+  <div class="section-title"><span class="num">2</span><h2>Executive Summary — TL;DR</h2><div class="divider"></div></div>
+  <div class="section-sub">{{EXEC_SUB}}</div>
+  <div class="exec-grid">
+    {{EXEC_THEESIS_CALLOUT}}
+    {{EXEC_RISK_CALLOUT}}
+    {{EXEC_VALUATION_CALLOUT}}
+    {{EXEC_CAPITAL_CALLOUT}}
+  </div>
+  {{EXEC_PLAIN_LANG_CALLOUT}}
+  {{EXEC_CONDITIONS_BLOCK}}
+</section>
+
+<!-- ============ SECTION 3: BUSINESS 101 ============ -->
+<section id="sec-biz" class="section">
+  <div class="section-title"><span class="num">3</span><h2>Business 101 — {{COMPANY_NAME}} kiếm tiền như thế nào?</h2><div class="divider"></div></div>
+  <div class="section-sub">{{BIZ_SUB}}</div>
+  {{BIZ_CONTENT}}
+</section>
+
+<!-- ============ SECTION 4: INDUSTRY POSITION ============ -->
+<section id="sec-industry" class="section">
+  <div class="section-title"><span class="num">4</span><h2>Industry Position — {{COMPANY_NAME}} đứng ở đâu trong ngành?</h2><div class="divider"></div></div>
+  <div class="section-sub">{{INDUSTRY_SUB}}</div>
+  {{INDUSTRY_CONTENT}}
+</section>
+
+<!-- ============ SECTION 5: FINANCIAL HISTORY 10Y ============ -->
+<section id="sec-history" class="section">
+  <div class="section-title"><span class="num">5</span><h2>Lịch sử tài chính {{PERIOD_LABEL}}</h2><div class="divider"></div></div>
+  <div class="section-sub">{{HISTORY_SUB}}</div>
+  {{HISTORY_TABLE}}
+  <div class="grid-2">
+    <div class="card"><div class="card-head"><div><div class="card-title">Revenue & Net Income</div></div></div><div class="chart-wrap"><canvas id="chartHistRev"></canvas></div></div>
+    <div class="card"><div class="card-head"><div><div class="card-title">Capex vs Free Cash Flow</div></div></div><div class="chart-wrap"><canvas id="chartHistCash"></canvas></div></div>
+  </div>
+  {{HISTORY_NARRATIVE}}
+</section>
+
+<!-- ============ SECTION 6: SEGMENT ANALYSIS ============ -->
+<section id="sec-segment" class="section">
+  <div class="section-title"><span class="num">6</span><h2>Segment Analysis</h2><div class="divider"></div></div>
+  <div class="section-sub">{{SEGMENT_SUB}}</div>
+  {{SEGMENT_TABLE}}
+  <div class="card"><div class="card-head"><div><div class="card-title">Mix {{SEGMENT_MIX_TITLE}}</div></div></div><div class="chart-wrap"><canvas id="chartSegMix"></canvas></div></div>
+  {{SEGMENT_NARRATIVE}}
+</section>
+
+<!-- ============ SECTION 7: INVESTMENT THESIS ============ -->
+<section id="sec-thesis" class="section">
+  <div class="section-title"><span class="num">7</span><h2>Investment Thesis — {{PERIOD_HORIZON}} năm</h2><div class="divider"></div></div>
+  <div class="section-sub">{{THESIS_SUB}}</div>
+  {{THESIS_MAIN}}
+  <div class="grid-2">
+    {{THESIS_RIGHT_CONDITIONS}}
+    {{THESIS_WRONG_CONDITIONS}}
+  </div>
+  {{THESIS_KPI_TABLE}}
+</section>
+
+<!-- ============ SECTION 8: VALUATION ============ -->
+<section id="sec-valuation" class="section">
+  <div class="section-title"><span class="num">8</span><h2>Valuation — P/E & P/B vs lịch sử</h2><div class="divider"></div></div>
+  <div class="section-sub">{{VALUATION_SUB}}</div>
+  {{VALUATION_TABLE}}
+  {{VALUATION_VERDICT_CARD}}
+  <div class="card"><div class="card-head"><div><div class="card-title">P/E lịch sử</div></div></div><div class="chart-wrap"><canvas id="chartValPE"></canvas></div></div>
+  {{VALUATION_INTERPRETATION}}
+  {{VALUATION_PLAIN_LANG}}
+  {{VALUATION_3ZONE_TABLE}}
+</section>
+
+<!-- ============ SECTION 9: PEER COMPARISON ============ -->
+<section id="sec-peer" class="section">
+  <div class="section-title"><span class="num">9</span><h2>Peer Comparison</h2><div class="divider"></div></div>
+  <div class="section-sub">{{PEER_SUB}}</div>
+  {{PEER_TABLE}}
+  <div class="grid-2">
+    <div class="card"><div class="card-head"><div><div class="card-title">Peer scatter: P/E vs growth</div></div></div><div class="chart-wrap"><canvas id="chartPeerScatter"></canvas></div></div>
+    {{PEER_NARRATIVE}}
+  </div>
+</section>
+
+<!-- ============ SECTION 10: BALANCE SHEET & FCF ============ -->
+<section id="sec-bs" class="section">
+  <div class="section-title"><span class="num">10</span><h2>Balance Sheet, Capex & Free Cash Flow</h2><div class="divider"></div></div>
+  <div class="section-sub">{{BS_SUB}}</div>
+  <div class="grid-2">
+    <div class="card"><div class="card-head"><div><div class="card-title">Debt vs Cash</div></div></div><div class="chart-wrap"><canvas id="chartBSDt"></canvas></div></div>
+    <div class="card"><div class="card-head"><div><div class="card-title">Shareholder returns</div></div></div><div class="chart-wrap"><canvas id="chartReturns"></canvas></div></div>
+  </div>
+  {{BS_STAT_GRID}}
+  {{BS_NARRATIVE}}
+</section>
+
+<!-- ============ SECTION 11: RISK MATRIX ============ -->
+<section id="sec-risk" class="section">
+  <div class="section-title"><span class="num">11</span><h2>Risk Matrix</h2><div class="divider"></div></div>
+  <div class="section-sub">{{RISK_SUB}}</div>
+  {{RISK_TABLE}}
+</section>
+
+<!-- ============ SECTION 12: CAPITAL USD LENS ============ -->
+<section id="sec-33k" class="section">
+  <div class="section-title"><span class="num">12</span><h2>Góc nhìn khoản đầu tư {{CAPITAL_AMOUNT}} USD</h2><div class="divider"></div></div>
+  <div class="section-sub">{{CAPITAL_SUB}}</div>
+  <div class="grid-2">{{CAPITAL_LUMP_SUM_CARD}}{{CAPITAL_DCA_CARD}}</div>
+  {{CAPITAL_DRAWDOWN_TABLE}}
+  {{CAPITAL_CHECKLIST}}
+</section>
+
+<!-- ============ SECTION 13: SCENARIO ANALYSIS ============ -->
+<section id="sec-scenario" class="section">
+  <div class="section-title"><span class="num">13</span><h2>Scenario Analysis — 3–5 năm</h2><div class="divider"></div></div>
+  <div class="section-sub">{{SCENARIO_SUB}}</div>
+  <div class="scenario-grid">{{SCENARIO_BULL}}{{SCENARIO_BASE}}{{SCENARIO_BEAR}}</div>
+  {{SCENARIO_TABLE}}
+</section>
+
+<!-- ============ SECTION 14: FINAL CHECKLIST ============ -->
+<section id="sec-checklist" class="section">
+  <div class="section-title"><span class="num">14</span><h2>Final Investment Checklist</h2><div class="divider"></div></div>
+  <div class="section-sub">{{CHECKLIST_SUB}}</div>
+  <div class="grid-2">{{CHECKLIST_CARDS}}</div>
+  {{CHECKLIST_DISCIPLINE}}
+</section>
+
+<!-- ============ SECTIONS 15-17: DYNAMIC INSIGHTS (1-4) ============ -->
+{{INSIGHT_SECTIONS}}
+<!-- Each insight section uses pattern:
+<section id="sec-insight-N" class="section">
+  <div class="section-title"><span class="num" style="background:linear-gradient(135deg,#f5a623,#4a9eff);color:#0f1419">★</span><h2>Special Insight N — {{TITLE}}</h2><div class="divider"></div></div>
+  <div class="section-sub">{{SUB}}</div>
+  {{CONTENT}}
+</section>
+-->
+
+<!-- ============ SECTION 18: TECHNICAL — ACTIVE ============ -->
+<section id="sec-tech" class="section">
+  <div class="section-title"><span class="num">18</span><h2>Phân tích kỹ thuật — Mode ACTIVE</h2><span class="tag red">TIMING/VERDICT</span><div class="divider"></div></div>
+  <div class="section-sub">{{TECH_SUB}}</div>
+  {{TECH_SCORE_CARD}}
+  <div class="grid-2">
+    <div class="card"><div class="card-head"><div><div class="card-title">Giá & MA</div></div></div><div class="chart-wrap"><canvas id="chartTechPrice"></canvas></div></div>
+    <div class="card"><div class="card-head"><div><div class="card-title">RSI(14)</div></div></div><div class="chart-wrap"><canvas id="chartTechRSI"></canvas></div></div>
+  </div>
+  {{TECH_SIGNALS_GRID}}
+  {{TECH_PATTERNS_TABLE}}
+  {{TECH_BETA_TABLE}}
+  {{TECH_MACD_CARD}}
+  {{TECH_STRATEGY_SCENARIOS}}
+</section>
+
+<!-- ============ SECTION 19: TECHNICAL — PROFILE (NON-ADVICE) ============ -->
+<section id="sec-tech-profile" class="section">
+  <div class="section-title"><span class="num">19</span><h2>Phân tích kỹ thuật — Mode PROFILE</h2><span class="tag amber">NON-ADVICE</span><div class="divider"></div></div>
+  <div class="section-sub">{{PROFILE_SUB}}</div>
+  {{PROFILE_RETURN_STATS}}
+  {{PROFILE_BLOCKS}}
+  <div class="non-advice-panel">{{PROFILE_NON_ADVICE_PANEL}}</div>
+</section>
+
+<!-- ============ SECTION 20: ANALYST SYNTHESIS ============ -->
+<section id="sec-analyst" class="section">
+  <div class="section-title"><span class="num">20</span><h2>Analyst Synthesis</h2><span class="tag blue">BULL/BEAR</span><div class="divider"></div></div>
+  <div class="section-sub">{{ANALYST_SUB}}</div>
+  {{ANALYST_CONSENSUS_GRID}}
+  {{ANALYST_STALE_WARNING}}
+  {{ANALYST_TABLE}}
+  <div class="grid-2">{{ANALYST_BULL_CARD}}{{ANALYST_BEAR_CARD}}</div>
+  {{ANALYST_INDEPENDENT_TABLE}}
+  {{ANALYST_FLOW_GRID}}
+  {{ANALYST_SYNTHESIS}}
+</section>
+
+<!-- ============ SECTION 21: GLOSSARY ============ -->
+<section id="sec-glossary" class="section">
+  <div class="section-title"><span class="num">21</span><h2>📖 Hướng dẫn đọc — Giải thích thuật ngữ</h2><div class="divider"></div></div>
+  <div class="section-sub">{{GLOSSARY_SUB}}</div>
+  {{GLOSSARY_HOW_TO_READ}}
+  <div class="grid-2">
+    <div class="card"><div class="card-head"><div><div class="card-title">Thuật ngữ tài chính</div></div></div>{{GLOSSARY_FINANCIAL}}</div>
+    <div class="card"><div class="card-head"><div><div class="card-title">Thuật ngữ {{DOMAIN_LABEL}}</div></div></div>{{GLOSSARY_DOMAIN}}</div>
+  </div>
+  {{GLOSSARY_TOP_3}}
+</section>
+
+<!-- ============ SECTION 22: SOURCE APPENDIX ============ -->
+<section id="sec-source" class="section">
+  <div class="section-title"><span class="num">22</span><h2>Source Appendix & Data Quality</h2><div class="divider"></div></div>
+  <div class="section-sub">{{SOURCE_SUB}}</div>
+  {{DATA_QUALITY_MATRIX}}
+  {{DATA_LIMITATIONS}}
+  {{REFS_LIST}}
+</section>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container" style="padding-top:0">
+    <div class="disclaimer">
+      <strong style="color:var(--red)">⚠️ Miễn trừ trách nhiệm.</strong>
+      Báo cáo này là <strong>investment evidence pack</strong> phục vụ nghiên cứu cá nhân, <strong>không phải khuyến nghị mua/bán</strong>,
+      không phải lệnh giao dịch, không phải tư vấn tài chính cá nhân.
+      Quyết định đầu tư là của bạn. Cổ phiếu có thể giảm 30–50%.
+    </div>
+    <p><strong>{{COMPANY_NAME}} ({{EXCHANGE}}: {{TICKER}})</strong> · {{FOOTER_META}}</p>
+    <p>{{FOOTER_STACK}}</p>
+    <p class="faint">{{FOOTER_SOURCES}}</p>
+  </div>
+</footer>
+
+<script>
+
+/* ============ DATA ============ */
+const DATA = {
+  years: ['FY17','FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25','FY26'],
+  revenue:    [37.7, 39.8, 39.1, 39.1, 40.5, 42.4, 49.95, 52.96, 57.4, 67.4],
+  netIncome:  [9.3, 3.9, 11.1, 10.1, 12.6, 6.7, 8.85, 10.4, 12.5, 17.0],
+  ocf:        [14.9, 15.4, 15.9, 14.8, 15.7, 12.5, 16.4, 18.7, 20.8, 32.0],
+  capex:      [1.7, 1.7, 1.9, 2.0, 2.4, 2.4, 3.1, 6.9, 21.2, 55.7],
+  fcf:        [13.2, 13.7, 14.0, 12.8, 13.3, 10.1, 13.3, 11.8, -0.4, -23.7],
+  debt:       [25.4, 25.3, 25.1, 26.1, 26.1, 69.0, 74.8, 86.9, 92.6, 129.5],
+  cash:       [18.0, 16.4, 17.5, 19.2, 22.6, 17.3, 12.5, 11.4, 11.3, 31.9],
+  dividend:   [3.0, 3.1, 3.3, 3.4, 3.7, 3.9, 4.2, 4.5, 4.7, 5.8],
+  buyback:    [8.0, 10.0, 7.0, 8.0, 9.0, 7.0, 11.0, 8.0, 5.3, 0.0],
+  peHist:     [22, 18, 19, 19, 24, 24, 30, 37, 45, 24], // ước tính MEDQ
+  pe5avg: 35, pe10avg: 30, pe5med: 33, pe10med: 28,
+  rpoQuarters: { labels:['FY25 Q4','FY26 Q3','FY26 Q4'], values:[138, 553, 638] },
+  capexFwd: { labels:['FY24','FY25','FY26','FY27 (guide)'], values:[6.9, 21.2, 55.7, 70] },
+  segMix: {
+    labels:['OCI / IaaS','SaaS apps','License support','License + HW + Services'],
+    values:[18.1, 15.9, 20.0, 13.4]
+  }
+};
+
+/* ============ Chart defaults ============ */
+Chart.defaults.color = '#8b949e';
+Chart.defaults.font.family = "'Inter', sans-serif";
+Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+Chart.defaults.font.size = 11;
+
+function grad(ctx, c1, c2){
+  const chart = ctx.chart;
+  const {ctx: cc, chartArea} = chart;
+  if (!chartArea) return c1;
+  const g = cc.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+  g.addColorStop(0, c1); g.addColorStop(1, c2);
+  return g;
+}
+
+const AMBER='#f5a623', BLUE='#4a9eff', GREEN='#3fb950', RED='#f85149', PURPLE='#a78bfa', GRID='rgba(255,255,255,0.05)';
+const baseScales = {
+  x: { grid:{display:false}, ticks:{font:{size:10}} },
+  y: { grid:{color:GRID}, ticks:{font:{size:10}} }
+};
+const baseOpts = (extra) => ({
+  responsive:true, maintainAspectRatio:false,
+  plugins:{ legend:{position:'top', align:'end', labels:{usePointStyle:true, boxWidth:8, font:{size:11}}} },
+  ...extra
+});
+
+/* ============ CHARTS ============ */
+document.addEventListener('DOMContentLoaded', function(){
+  const $ = (id) => document.getElementById(id);
+
+  // --- Chart 1: Revenue + Net Income (10Y) ---
+  new Chart($('chartHistRev'), {
+    type:'bar',
+    data:{ labels: DATA.years, datasets:[
+      { label:'Revenue ($B)', data: DATA.revenue,
+        backgroundColor:(c)=>grad(c,'rgba(74,158,255,0.9)','rgba(74,158,255,0.3)'),
+        borderRadius:5, yAxisID:'y', order:2 },
+      { label:'Net income ($B)', data: DATA.netIncome, type:'line',
+        borderColor: AMBER, backgroundColor: AMBER, tension:0.35, pointRadius:4,
+        pointBackgroundColor:'#0f1419', pointBorderWidth:2, yAxisID:'y1', order:1 }
+    ]},
+    options: baseOpts({
+      scales:{
+        x: baseScales.x,
+        y: { ...baseScales.y, position:'left', title:{display:true, text:'Revenue ($B)', font:{size:10}, color:'#565f6b'} },
+        y1:{ position:'right', grid:{display:false}, ticks:{font:{size:10}, color:AMBER} }
+      },
+      plugins:{ legend:{position:'top', align:'end', labels:{usePointStyle:true, boxWidth:8}} }
+    })
+  });
+
+  // --- Chart 2: Capex vs FCF (10Y) ---
+  new Chart($('chartHistCash'), {
+    type:'bar',
+    data:{ labels: DATA.years, datasets:[
+      { label:'Capex ($B)', data: DATA.capex,
+        backgroundColor:(c)=>grad(c,'rgba(248,81,73,0.85)','rgba(248,81,73,0.25)'),
+        borderRadius:5, yAxisID:'y', order:2 },
+      { label:'Free cash flow ($B)', data: DATA.fcf, type:'line',
+        borderColor: GREEN, backgroundColor: GREEN, tension:0.35, pointRadius:4,
+        pointBackgroundColor:(ctx)=> ctx.parsed.y < 0 ? RED : '#0f1419',
+        pointBorderWidth:2, yAxisID:'y', order:1, borderWidth:2.5 }
+    ]},
+    options: baseOpts({
+      scales:{
+        x: baseScales.x,
+        y: { ...baseScales.y, title:{display:true, text:'$B', font:{size:10}, color:'#565f6b'} }
+      }
+    })
+  });
+
+  // --- Chart 3: Segment mix (doughnut) ---
+  new Chart($('chartSegMix'), {
+    type:'doughnut',
+    data:{ labels: DATA.segMix.labels, datasets:[{
+      data: DATA.segMix.values,
+      backgroundColor:[BLUE, PURPLE, AMBER, '#565f6b'],
+      borderColor:'#161b22', borderWidth:2
+    }]},
+    options:{
+      responsive:true, maintainAspectRatio:false, cutout:'58%',
+      plugins:{
+        legend:{position:'right', labels:{usePointStyle:true, boxWidth:8, font:{size:11}, padding:10}},
+        tooltip:{callbacks:{label:(c)=>` ${c.label}: $${c.parsed}B`}}
+      }
+    }
+  });
+
+  // --- Chart 4: RPO growth ---
+  new Chart($('chartThesisRPO'), {
+    type:'bar',
+    data:{ labels: DATA.rpoQuarters.labels, datasets:[{
+      label:'RPO ($B)', data: DATA.rpoQuarters.values,
+      backgroundColor:[ '#565f6b', PURPLE, RED ],
+      borderRadius:6
+    }]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, ticks:{callback:(v)=>'$'+v+'B'}} },
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:(c)=>` RPO: $${c.parsed}B`}} }
+    })
+  });
+
+  // --- Chart 5: Capex forward ---
+  new Chart($('chartThesisCapex'), {
+    type:'bar',
+    data:{ labels: DATA.capexFwd.labels, datasets:[{
+      label:'Capex ($B)', data: DATA.capexFwd.values,
+      backgroundColor:(c)=>{
+        const i = c.dataIndex;
+        const cols=['rgba(74,158,255,0.7)','rgba(245,166,35,0.8)', RED, 'rgba(248,81,73,0.4)'];
+        return cols[i];
+      }, borderRadius:6
+    }]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, ticks:{callback:(v)=>'$'+v+'B'}} },
+      plugins:{ legend:{display:false}, tooltip:{callbacks:{label:(c)=>` Capex: $${c.parsed}B`}} }
+    })
+  });
+
+  // --- Chart 6: P/E history with avg bands (annotation) ---
+  new Chart($('chartValPE'), {
+    type:'line',
+    data:{ labels: DATA.years, datasets:[{
+      label:'P/E (ước tính)',
+      data: DATA.peHist,
+      borderColor: BLUE, backgroundColor:(c)=>grad(c,'rgba(74,158,255,0.25)','rgba(74,158,255,0)'),
+      fill:true, tension:0.35, pointRadius:4, pointBackgroundColor:'#0f1419', pointBorderWidth:2, borderWidth:2.5
+    }]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, title:{display:true, text:'P/E (x)', font:{size:10}, color:'#565f6b'}} },
+      plugins:{
+        legend:{labels:{usePointStyle:true, boxWidth:8}},
+        annotation:{
+          annotations:{
+            avg5: { type:'line', yMin:DATA.pe5avg, yMax:DATA.pe5avg, borderColor:AMBER, borderDash:[6,4], borderWidth:1.5,
+                    label:{content:'5Y avg ~35×',display:true,position:'end',backgroundColor:'rgba(245,166,35,0.85)',font:{size:9,weight:'bold'},color:'#1a1206'}},
+            avg10:{ type:'line', yMin:DATA.pe10avg, yMax:DATA.pe10avg, borderColor:'#a78bfa', borderDash:[6,4], borderWidth:1.5,
+                    label:{content:'10Y avg ~30×',display:true,position:'end',backgroundColor:'rgba(167,139,250,0.85)',font:{size:9,weight:'bold'},color:'#0f1419'}},
+            current:{ type:'point', xValue:'FY26', yValue:24, backgroundColor:RED, radius:6,
+                      label:{content:'Now ~24×',display:true,position:'start',backgroundColor:RED,font:{size:9,weight:'bold'},color:'#fff'}}
+          }
+        }
+      }
+    })
+  });
+
+  // --- Chart 7: Debt vs Cash (10Y) ---
+  new Chart($('chartBSDt'), {
+    type:'bar',
+    data:{ labels: DATA.years, datasets:[
+      { label:'Total debt ($B)', data: DATA.debt,
+        backgroundColor:(c)=>grad(c,'rgba(248,81,73,0.85)','rgba(248,81,73,0.3)'), borderRadius:5, yAxisID:'y', order:2 },
+      { label:'Cash + securities ($B)', data: DATA.cash, type:'line',
+        borderColor: GREEN, backgroundColor: GREEN, tension:0.35, pointRadius:4,
+        pointBackgroundColor:'#0f1419', pointBorderWidth:2, yAxisID:'y', order:1, borderWidth:2.5 }
+    ]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, title:{display:true, text:'$B', font:{size:10}, color:'#565f6b'}} }
+    })
+  });
+
+  // --- Chart 8: Dividend + Buyback ---
+  new Chart($('chartBSDt2') || $('chartReturns'), {
+    type:'bar',
+    data:{ labels: DATA.years, datasets:[
+      { label:'Dividend ($B)', data: DATA.dividend, backgroundColor:'rgba(63,185,80,0.7)', borderRadius:4, stack:'r' },
+      { label:'Buyback ($B)', data: DATA.buyback, backgroundColor:'rgba(74,158,255,0.7)', borderRadius:4, stack:'r' }
+    ]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, stacked:true, title:{display:true, text:'$B', font:{size:10}, color:'#565f6b'}} }
+    })
+  });
+
+  // --- Chart 9: Peer scatter ---
+  const peers = {
+    datasets:[{
+      label:'Peer (P/E vs growth, bubble=rev)',
+      data:[
+        {x:17, y:24, r:18, label:'ORCL'},
+        {x:15, y:35, r:24, label:'MSFT'},
+        {x:11, y:35, r:30, label:'AMZN'},
+        {x:14, y:25, r:26, label:'GOOGL'},
+        {x:11, y:45, r:12, label:'CRM'},
+        {x:23, y:90, r:8,  label:'NOW'}
+      ],
+      backgroundColor:[AMBER, BLUE, '#ff9900', '#ea4335', '#00a1e0', '#62d84e'],
+      borderColor:'#0f1419', borderWidth:1.5
+    }]
+  };
+  new Chart($('chartPeerScatter'), {
+    type:'bubble',
+    data: peers,
+    options: baseOpts({
+      scales:{
+        x:{ ...baseScales.x, title:{display:true, text:'Revenue growth (%)', font:{size:10}, color:'#565f6b'}, min:5, max:30 },
+        y:{ ...baseScales.y, title:{display:true, text:'P/E TTM (×)', font:{size:10}, color:'#565f6b'}, min:15, max:100 }
+      },
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:(c)=>{
+          const d=c.raw; return ` ${d.label}: growth ${d.x}%, P/E ${d.y}×`;
+        }}},
+        // label each bubble
+        datalabels:false
+      }
+    }),
+    plugins:[{
+      id:'peerLabels',
+      afterDatasetsDraw(chart){
+        const {ctx} = chart;
+        const ds = chart.data.datasets[0].data;
+        const meta = chart.getDatasetMeta(0);
+        ctx.save();
+        ctx.font = 'bold 11px Inter';
+        ctx.fillStyle = '#e6edf3';
+        ctx.textAlign='center';
+        ds.forEach((d,i)=>{
+          const pt = meta.data[i];
+          if(!pt) return;
+          ctx.fillText(d.label, pt.x, pt.y - d.r - 4);
+        });
+        ctx.restore();
+      }
+    }]
+  });
+
+  // --- Chart 10: Technical — Price + MA (weekly) ---
+  const techWeeks = ['7/25','8/25','9/25','10/25','11/25','12/25','1/26','2/26','3/26','4/26','5/26','6/26','7/26'];
+  const techPrice = [237,244,286,286,222,196,178,148,150,138,196,184,140];
+  const techMA10  = [240,243,275,288,250,210,190,165,160,160,180,195,170];
+  const techMA20  = [242,243,260,283,255,225,200,180,175,175,178,190,180];
+  const techMA50  = [241,242,250,275,260,235,215,195,190,190,190,190,186];
+  new Chart($('chartTechPrice'), {
+    type:'line',
+    data:{ labels: techWeeks, datasets:[
+      { label:'Close', data: techPrice, borderColor: AMBER, backgroundColor:'transparent', tension:0.3, pointRadius:3, borderWidth:2.5 },
+      { label:'MA10', data: techMA10, borderColor: BLUE, borderDash:[4,3], tension:0.3, pointRadius:0, borderWidth:1.5 },
+      { label:'MA20', data: techMA20, borderColor: PURPLE, borderDash:[4,3], tension:0.3, pointRadius:0, borderWidth:1.5 },
+      { label:'MA50', data: techMA50, borderColor: '#8b949e', borderDash:[4,3], tension:0.3, pointRadius:0, borderWidth:1.5 }
+    ]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, title:{display:true, text:'$ (USD)', font:{size:10}, color:'#565f6b'} } },
+      plugins:{ legend:{labels:{usePointStyle:true, boxWidth:8}}, annotation:{ annotations:{ support:{type:'line', yMin:136, yMax:136, borderColor:GREEN, borderDash:[6,4], borderWidth:1, label:{content:'Support ~$134-138', display:true, position:'start', backgroundColor:'rgba(63,185,80,0.85)', font:{size:9,weight:'bold'}, color:'#0f1419'}}, resist:{type:'line', yMin:250, yMax:250, borderColor:RED, borderDash:[6,4], borderWidth:1, label:{content:'Resistance ~$250', display:true, position:'end', backgroundColor:'rgba(248,81,73,0.85)', font:{size:9,weight:'bold'}, color:'#fff'}} } } }
+    })
+  });
+
+  // --- Chart 11: RSI(14) ---
+  new Chart($('chartTechRSI'), {
+    type:'line',
+    data:{ labels: techWeeks, datasets:[{
+      label:'RSI(14)', data:[55,50,72,58,38,35,32,28,30,27,42,35,26.7],
+      borderColor:(c)=>grad(c,'rgba(245,166,35,0.9)','rgba(245,166,35,0.2)'), fill:true, tension:0.3, pointRadius:3, borderWidth:2
+    }]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, min:0, max:100,
+        title:{display:true, text:'RSI', font:{size:10}, color:'#565f6b'} } },
+      plugins:{ legend:{display:false}, annotation:{ annotations:{
+        ob:{type:'line', yMin:70, yMax:70, borderColor:RED, borderDash:[4,4], borderWidth:1, label:{content:'Overbought 70', display:true, position:'end', backgroundColor:'rgba(248,81,73,0.7)', font:{size:9}, color:'#fff'}},
+        os:{type:'line', yMin:30, yMax:30, borderColor:GREEN, borderDash:[4,4], borderWidth:1, label:{content:'Oversold 30', display:true, position:'end', backgroundColor:'rgba(63,185,80,0.7)', font:{size:9}, color:'#fff'}}
+      } } }
+    })
+  });
+
+  // --- Chart 12: Drawdown profile (2Y daily underwater curve, monthly resample) ---
+  const ddMonths = ['7/24','9/24','11/24','1/25','3/25','5/25','7/25','9/25','11/25','1/26','3/26','5/26','7/26'];
+  const ddValues = [0,5,-8,-15,-5,8,5,0,-32,-55,-57,-30,-57];
+  new Chart($('chartProfileDD'), {
+    type:'line',
+    data:{ labels: ddMonths, datasets:[{
+      label:'Drawdown %', data: ddValues,
+      borderColor:(c)=>grad(c,'rgba(248,81,73,0.9)','rgba(248,81,73,0.2)'), fill:true, tension:0.3, pointRadius:2, borderWidth:2
+    }]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, title:{display:true, text:'%', font:{size:10}, color:'#565f6b'} } },
+      plugins:{ legend:{display:false} }
+    })
+  });
+
+  // --- Chart 13: Return distribution histogram ---
+  const distBins = ['<−8%','−8/−4%','−4/−2%','−2/0%','0/2%','2/4%','4/8%','>8%'];
+  const distCounts = [8, 22, 45, 95, 110, 50, 28, 12]; // approximate daily-return histogram
+  new Chart($('chartProfileDist'), {
+    type:'bar',
+    data:{ labels: distBins, datasets:[{
+      label:'Số ngày (2 năm)', data: distCounts,
+      backgroundColor: (c)=>{
+        const i=c.dataIndex;
+        return i<3 ? 'rgba(248,81,73,0.7)' : (i===3 ? '#565f6b' : 'rgba(63,185,80,0.7)');
+      }, borderRadius:4
+    }]},
+    options: baseOpts({
+      scales:{ x: baseScales.x, y:{ ...baseScales.y, title:{display:true, text:'số ngày', font:{size:10}, color:'#565f6b'} } },
+      plugins:{ legend:{display:false} }
+    })
+  });
+});
+
+/* ============ NAV / scroll-spy / progress / back-top ============ */
+(function(){
+  const nav = document.getElementById('topnav');
+  const links = Array.from(document.querySelectorAll('.topnav-link'));
+  const progressBar = document.getElementById('progressBar');
+  const backTop = document.getElementById('backTop');
+  const sections = links.map(l => document.getElementById(l.dataset.target)).filter(Boolean);
+
+  function onScroll(){
+    const y = window.scrollY;
+    // progress
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progressBar.style.width = (h>0 ? (y/h*100) : 0) + '%';
+    // back-top
+    if (y > 600) backTop.classList.add('visible'); else backTop.classList.remove('visible');
+    // scroll-spy
+    const navH = nav.offsetHeight + 10;
+    let active = sections[0];
+    for (const s of sections){
+      if (s && (s.getBoundingClientRect().top - navH) <= 0) active = s;
+    }
+    links.forEach(l => {
+      l.classList.toggle('active', active && l.dataset.target === active.id);
+    });
+    // auto-scroll active link into view in nav
+    const activeLink = links.find(l => l.classList.contains('active'));
+    if (activeLink){
+      const navInner = nav.querySelector('.topnav-inner');
+      const linkRect = activeLink.getBoundingClientRect();
+      const innerRect = navInner.getBoundingClientRect();
+      if (linkRect.right > innerRect.right - 20 || linkRect.left < innerRect.left + 20){
+        navInner.scrollTo({ left: navInner.scrollLeft + (linkRect.left - innerRect.left - 40), behavior:'smooth' });
+      }
+    }
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  // smooth-scroll on click
+  links.forEach(l => {
+    l.addEventListener('click', (e)=>{
+      const t = document.getElementById(l.dataset.target);
+      if (!t) return;
+      e.preventDefault();
+      const top = t.getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 8;
+      window.scrollTo({ top, behavior:'smooth' });
+    });
+  });
+  backTop.addEventListener('click', ()=> window.scrollTo({top:0, behavior:'smooth'}));
+  onScroll();
+})();
+
+</script>
+</body>
+
+</html>
