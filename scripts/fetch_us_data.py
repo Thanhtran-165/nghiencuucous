@@ -117,11 +117,22 @@ def fetch_ticker(ticker: str, range_years: int = 2) -> dict:
             ocf = cf.loc["Operating Cash Flow"] if "Operating Cash Flow" in cf.index else None
             capex = cf.loc["Capital Expenditure"] if "Capital Expenditure" in cf.index else None
             if ocf is not None and capex is not None:
-                out["free_cash_flow_annual"] = {
-                    str(col): {"ocf": float(ocf[col]), "capex": float(capex[col]),
-                               "fcf": float(ocf[col]) - float(capex[col])}
-                    for col in cf.columns
-                }
+                fcf_dict = {}
+                for col in cf.columns:
+                    ocf_val = float(ocf[col]) if pd.notna(ocf[col]) else None
+                    capex_val = float(capex[col]) if pd.notna(capex[col]) else None
+                    if ocf_val is not None and capex_val is not None:
+                        fcf_dict[str(col)] = {
+                            "ocf": ocf_val, "capex": capex_val,
+                            "fcf": ocf_val - capex_val
+                        }
+                    else:
+                        fcf_dict[str(col)] = {
+                            "ocf": ocf_val, "capex": capex_val,
+                            "fcf": None,
+                            "_note": "data missing (NaN) — flag as NOT VERIFIED"
+                        }
+                out["free_cash_flow_annual"] = fcf_dict
     except Exception as e:
         out["data_quality"]["cashflow_error"] = str(e)
 
@@ -252,7 +263,9 @@ def main():
         data = fetch_ticker(ticker, args.range_years)
 
         if args.output == "json":
-            print(json.dumps(data, indent=2, default=str))
+            # allow_nan=False → NaN/Infinity thay bằng null (JSON strict compliant)
+            # Tránh LLM đọc "NaN" và hiểu thành 0 (silent failure)
+            print(json.dumps(data, indent=2, default=str, allow_nan=False))
         else:
             # Simple CSV: flatten one level
             for k1, v1 in data.items():

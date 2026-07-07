@@ -4,70 +4,85 @@
 
 | File | Purpose |
 |---|---|
-| `dashboard_skeleton.html` | **⭐ WORKING TEMPLATE (primary)** — skeleton sạch (54KB, 105 tokens), chỉ CSS + JS + section structure. KHÔNG có Oracle content. LLM fill `{{TOKEN}}` per ticker. |
-| `dashboard_example_orcl.html` | **Reference example** — báo cáo ORCL hoàn chỉnh (253KB, 22 sections, real data, real insight engine output). Dùng làm depth/quality benchmark + xem pattern cụ thể cho từng section. |
-| `dashboard_template.html` | (legacy) ORCL report với title tokenized. Có thể xóa — skeleton thay thế. |
+| `dashboard_skeleton.html` | **⭐ WORKING TEMPLATE (primary)** — skeleton sạch (~58KB, 105 tokens), chỉ CSS + JS + section structure + disclaimer + sidebar layout. LLM fill `{{TOKEN}}` per ticker. **DÙNG FILE NÀY LÀM TEMPLATE.** |
+| `_REFERENCE_ORCL_DONT_USE_AS_TEMPLATE.html` | **⚠️ REFERENCE ONLY — KHÔNG DÙNG LÀM TEMPLATE** — báo cáo ORCL hoàn chỉnh (248KB, 22 sections). Chỉ để xem depth/quality benchmark + pattern cụ thể. Tên file có `_DONT_USE_AS_TEMPLATE` để LLM không nhầm. |
+
+## Đã xóa (legacy)
+
+- ~~`dashboard_template.html`~~ — đã xóa 7/2026. File này là ORCL report với title tokenized, chứa 222 Oracle content → nếu dùng làm template sẽ inherit Oracle content (silent failure). Skeleton thay thế hoàn toàn.
 
 ## Cách dùng (Phase 5 render)
 
-### Bước 1: Copy template
+### Bước 1: Copy SKELETON (KHÔNG copy example)
+
 ```python
 import shutil
 shutil.copy(
-    "~/.zcode/skills/us-equity-research/assets/dashboard_template.html",
+    "~/.zcode/skills/us-equity-research/assets/dashboard_skeleton.html",  # ⭐ SKELETON
     f"~/ZCodeProject/{ticker_lower}-deploy/index.html"
 )
+# ❌ KHÔNG copy _REFERENCE_ORCL_DONT_USE_AS_TEMPLATE.html
+# ❌ KHÔNG copy orcl-deploy/index.html (nếu đã deploy Oracle trước đó)
 ```
 
+**Tại sao không copy orcl-deploy**: orcl-deploy là báo cáo Oracle hoàn chỉnh, chứa 200+ Oracle-specific content. Nếu copy → phải thay từng đoạn → dễ sót. Skeleton sạch 100%, chỉ có CSS + JS + structure.
+
 ### Bước 2: Fill tokens via str.replace (KHÔNG f-string)
+
 ```python
 TOKEN_MAP = {
-    "{{TICKER}}": ticker,                       # e.g. NVDA
-    "{{COMPANY_NAME}}": company_name,           # e.g. NVIDIA Corporation
+    "{{TICKER}}": ticker,
+    "{{COMPANY_NAME}}": company_name,
     "{{COMPANY_SUB}}": f"{exchange} · {sector} · FY ends {fy_end} · HQ {hq}",
-    "{{HERO_INTRO}}: f"Investment evidence pack... vốn tham khảo ${capital:,}...",
+    "{{HERO_INTRO}}": f"Investment evidence pack... vốn tham khảo ${capital:,}...",
     "{{PRICE}}": price,
     "{{PRICE_DATE}}": price_date,
     "{{PRICE_CCY}}": "$",
     "{{PRICE_DELTA}}": f"{delta_pct}%",
     "{{PRICE_DELTA_CLASS}}": "pos" if delta > 0 else "neg",
-    # ... etc
+    # ... etc (105 tokens total)
 }
 for token, value in TOKEN_MAP.items():
     html = html.replace(token, str(value))
 ```
 
 ### Bước 3: Viết content per section
-ORCL example là **reference** cho depth + structure. Mỗi section trong example có content đặc thù Oracle — **đọc pattern structure, KHÔNG copy content**. Viết fresh content per ticker dựa trên:
+
+`_REFERENCE_ORCL_DONT_USE_AS_TEMPLATE.html` là **reference** cho depth + structure. Mỗi section trong reference có content đặc thù Oracle — **đọc pattern structure, KHÔNG copy content**. Viết fresh content per ticker dựa trên:
 - Data đã research (Phase 1)
 - Insight frames đã chạy (Phase 2)
-- Sector-specific (GICS router)
+- Sector-specific (GICS router + commodity extensions Section H)
 
-### Bước 4: Generate TOC + xref
-```python
-# Scan section ids → build TOC grid
-# Convert "Section N" text → <a class="xref"> trong text chunks
-# (xem references/dashboard_design.md section D)
-```
+### Bước 4: Generate TOC sidebar + xref
+
+Skeleton đã có sẵn sidebar layout (CSS `.toc-sidebar`, `.layout-main`, `.layout-content`).
+- **Sidebar TOC**: skeleton có placeholder `<aside class="toc-sidebar">` — fill list items với section ids
+- **xref inline**: dùng `scripts/generate_toc_xref.py` (nếu có) HOẶC viết tay `<a href="#sec-..." class="xref">Section N</a>` trong text
 
 ### Bước 5: Quality gates
+
 - `node --check` inline JS
 - `grep -oE "\{\{[A-Z_0-9]+\}\}"` empty (no unreplaced tokens)
-- `grep non-advice` empty trong section PROFILE
+- `grep non-advice` empty trong section PROFILE (19)
+- `grep -c "Oracle\|ORCL"` = 0 (no inherited Oracle content)
 - 22 sections đầy đủ
 - Citation footnotes cho số liệu quan trọng
+- Disclaimer block có (CSS `.disclaimer`)
+- Sidebar TOC có (CSS `.toc-sidebar`)
 
 ### Bước 6: Deploy
+
 ```bash
-vercel deploy ~/ZCodeProject/{ticker-lower}-deploy --prod -y
+vercel deploy ~/ZCodeProject/{ticker-lowercase}-deploy --prod -y
 ```
 
-## Structure preserved from ORCL example
+## Structure preserved from ORCL example (trong skeleton)
 
-- **CSS**: full hybrid dark theme (~270 lines) — Bloomberg-ish, accent amber + blue
+- **CSS**: full hybrid dark theme (~320 lines) — Bloomberg-ish, accent amber + blue
+- **CSS**: disclaimer block + sidebar layout (backport từ orcl-deploy 7/2026)
 - **JS**: full Chart.js 4.4.1 + annotation plugin wiring, 13 chart patterns, nav/scroll-spy/progress
 - **Section structure**: 22 sections with consistent id pattern (`sec-hero`, `sec-exec`, ...)
-- **Component classes**: card, callout, fin-table, kpi, scenario-card, risk-table, etc.
+- **Component classes**: card, callout, fin-table, kpi, scenario-card, risk-table, disclaimer, toc-sidebar, ...
 
 ## What changes per ticker
 
@@ -97,4 +112,4 @@ vercel deploy ~/ZCodeProject/{ticker-lower}-deploy --prod -y
 | `{{CAPITAL_AMOUNT}}` | X-K lens capital | string |
 | `{{ANALYST_TABLE}}`, `{{CONSENSUS_CARD}}` | analyst section | HTML block |
 
-**Lưu ý**: không phải mọi chuỗi Oracle đều được đánh dấu token (sẽ quá nhiều). LLM đọc ORCL example để biết pattern structure → viết lại content fresh per ticker. Token chỉ ở những chỗ phổ quát (title, brand, hero cơ bản).
+**Lưu ý**: không phải mọi chuỗi Oracle đều được đánh dấu token (sẽ quá nhiều). LLM đọc `_REFERENCE_ORCL` để biết pattern structure → viết lại content fresh per ticker. Token chỉ ở những chỗ phổ quát (title, brand, hero cơ bản).

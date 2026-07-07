@@ -12,7 +12,7 @@
 ```
 EPS, P/E, P/B, FCF, GAAP vs non-GAAP, Capex, RPO/Backlog, OCF, Buyback, Dilution, Drawdown, DCA
 ```
-Mỗi term: định nghĩa ngắn + ví dụ với số liệu thực (case ORCL: "EPS $5.83 × 100 cổ phiếu = $583/năm thuộc về bạn").
+Mỗi term: định nghĩa ngắn + ví dụ với **số liệu thực của công ty đang phân tích** (KHÔNG dùng số Oracle hardcoded — điền `[EPS hiện tại của TICKER] × [số cổ phiếu] = [số tiền]/năm thuộc về bạn`).
 
 #### Card 2: Domain terms (ĐỘNG per company)
 12 term đặc thù doanh nghiệp/ngành. Examples:
@@ -22,6 +22,7 @@ Mỗi term: định nghĩa ngắn + ví dụ với số liệu thực (case ORCL
 - **Healthcare**: Pipeline, Phase 1/2/3, PDUFA, FDA, EMA, patent cliff, R&D pipeline, biologic, generic, OTC
 - **REITs**: FFO, AFFO, NAV, cap rate, WALE, occupancy, NOI, same-property cash flow
 - **Energy**: Reserve, EV/EBITDA, P/CF, crack spread, WTI/Brent, refining margin, production volume
+- **Gold/Metals mining** (NEM, AEM, B, KGC, AU): AISC, by-product vs co-product, reserves (P&P), reserve life, grade (g/t), P/NAV, streaming/royalty, Tier-1 asset
 
 ### Layer 2: 💡 "Nói cách khác" callouts
 

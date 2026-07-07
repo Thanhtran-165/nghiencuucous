@@ -5,8 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ORCL · Oracle Corporation | Investment Evidence Pack (3–5 năm)</title>
-<meta name="description" content="Báo cáo nghiên cứu cổ phiếu Oracle (ORCL) — investment evidence pack cho nhà đầu tư 3–5 năm, dữ liệu FY2026, không khuyến nghị mua/bán.">
+<title>{{TICKER}} · {{COMPANY_NAME}} | Investment Evidence Pack (3–5 năm)</title>
+<meta name="description" content="Báo cáo nghiên cứu cổ phiếu {{COMPANY_NAME}} ({{TICKER}}) — investment evidence pack cho nhà đầu tư 3–5 năm, không khuyến nghị mua/bán.">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,6 +54,35 @@ a:hover{text-decoration:underline}
 
 /* ---------- layout ---------- */
 .container{max-width:1480px;margin:0 auto;padding:24px 24px 80px}
+
+/* ---------- layout 2 cột: content + TOC sidebar phải (sticky) ---------- */
+.layout-main{display:grid;grid-template-columns:minmax(0,1fr) 260px;gap:32px;align-items:start}
+.layout-content{min-width:0}
+.toc-sidebar{position:sticky;top:64px;max-height:calc(100vh - 80px);overflow-y:auto;padding:14px 14px;background:var(--card);border:1px solid var(--border);border-radius:var(--radius)}
+.toc-sidebar::-webkit-scrollbar{width:6px}
+.toc-sidebar::-webkit-scrollbar-thumb{background:var(--border-hot);border-radius:3px}
+.toc-sidebar-head{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--amber);margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.toc-sidebar-hint{font-size:10.5px;color:var(--text-faint);margin-bottom:10px;line-height:1.4}
+.toc-sidebar-list{list-style:none;padding:0;margin:0}
+.toc-sidebar-item{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:6px;text-decoration:none;color:var(--text-dim);font-size:11.5px;line-height:1.35;transition:all .12s;border-left:2px solid transparent}
+.toc-sidebar-item:hover{background:rgba(245,166,35,0.06);color:var(--text);text-decoration:none;border-left-color:var(--amber)}
+.toc-sidebar-num{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:4px;background:var(--card-2);color:var(--text-faint);font-size:10px;font-weight:700;font-family:var(--font-mono);flex-shrink:0;margin-top:1px}
+.toc-sidebar-item:hover .toc-sidebar-num{background:var(--amber);color:#1a1206}
+.toc-sidebar-item .toc-sidebar-label{flex:1}
+@media(max-width:1100px){.layout-main{grid-template-columns:1fr;gap:0}.toc-sidebar{display:none}}
+
+/* ---------- disclaimer block (cuối báo cáo, trước source) ---------- */
+.disclaimer{border-radius:var(--radius);padding:22px 24px;border:1px solid var(--border);border-left:4px solid var(--amber);background:rgba(245,166,35,0.04);margin:24px 0 32px}
+.disclaimer-title{font-size:14px;font-weight:700;color:var(--amber);margin-bottom:8px}
+.disclaimer-title.sub{font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-top:16px;color:var(--text-dim)}
+.disclaimer p{font-size:13px;color:var(--text-dim);line-height:1.65;margin:8px 0}
+.disclaimer ol,.disclaimer ul{margin:8px 0 8px 4px;padding-left:22px}
+.disclaimer li{font-size:13px;color:var(--text-dim);line-height:1.7;margin-bottom:6px}
+.disclaimer li strong{color:var(--text)}
+.disclaimer-foot{margin-top:14px!important;padding-top:12px;border-top:1px solid var(--border);font-style:italic}
+.qlist{list-style:none!important;padding-left:0!important}
+.qlist li{display:flex;align-items:center;gap:10px}
+.qlist .qbadge{flex-shrink:0;min-width:54px;text-align:center}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
@@ -294,22 +323,9 @@ footer p{margin-bottom:6px}
 .callout.plain .callout-body strong{color:var(--amber)}
 
 
-/* ---------- table of contents ---------- */
-.toc-panel{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:24px}
-.toc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
-.toc-head h3{font-size:15px;font-weight:700}
-.toc-head .toc-hint{font-size:11px;color:var(--text-faint)}
-.toc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.toc-item{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;background:var(--card-2);border:1px solid var(--border);border-radius:8px;text-decoration:none;transition:all .15s;cursor:pointer}
-.toc-item:hover{border-color:var(--border-hot);background:rgba(245,166,35,0.05);text-decoration:none}
-.toc-num{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;padding:0 6px;border-radius:5px;background:var(--amber);color:#1a1206;font-weight:700;font-size:11px;font-family:var(--font-mono);flex-shrink:0}
-.toc-text{display:flex;flex-direction:column;gap:1px;min-width:0}
-.toc-label{font-size:12px;font-weight:600;color:var(--text);line-height:1.3}
-.toc-desc{font-size:10.5px;color:var(--text-faint);line-height:1.4}
+/* ---------- xref link (cross-reference inline) ---------- */
 a.xref{color:var(--blue);text-decoration:none;border-bottom:1px dotted var(--blue);font-weight:500}
 a.xref:hover{background:var(--blue-soft);border-bottom-style:solid}
-@media(max-width:1100px){.toc-grid{grid-template-columns:1fr 1fr}}
-@media(max-width:600px){.toc-grid{grid-template-columns:1fr}}
 
 /* ---------- responsive ---------- */
 @media(max-width:1100px){
@@ -364,9 +380,6 @@ a.xref:hover{background:var(--blue-soft);border-bottom-style:solid}
 
 <div class="container">
 
-<!-- ============ TABLE OF CONTENTS (auto-generated) ============ -->
-{{TOC_SECTION}}
-
 <!-- ============ SECTION 1: HERO + KPI ============ -->
 <section id="sec-hero" class="section" style="margin-top:8px;scroll-margin-top:60px">
   <div class="hero">
@@ -381,6 +394,7 @@ a.xref:hover{background:var(--blue-soft);border-bottom-style:solid}
       <div class="price-block">
         <div class="price-now"><span class="ccy">{{PRICE_CCY}}</span>{{PRICE}}</div>
         <div class="price-meta">Giá đóng cửa <span class="dim">{{PRICE_DATE}}</span><span class="delta {{PRICE_DELTA_CLASS}}">{{PRICE_DELTA}}</span></div>
+        <div class="price-meta dim" style="margin-top:4px">📅 <strong>Dữ liệu tính đến {{PRICE_DATE}}</strong> — số liệu có thể đã thay đổi.</div>
         <div class="price-meta dim" style="margin-top:4px">{{PRICE_META}}</div>
         <div class="price-meta dim" style="margin-top:4px">{{PRICE_META_2}}</div>
       </div>
@@ -388,6 +402,10 @@ a.xref:hover{background:var(--blue-soft);border-bottom-style:solid}
     <div class="kpi-strip">{{KPI_STRIP}}</div>
   </div>
 </section>
+
+<!-- ============ LAYOUT 2 CỘT: content (trái) + TOC sidebar (phải, sticky) ============ -->
+<div class="layout-main">
+<div class="layout-content">
 
 <!-- ============ SECTION 2: EXECUTIVE SUMMARY ============ -->
 <section id="sec-exec" class="section">
@@ -576,6 +594,19 @@ a.xref:hover{background:var(--blue-soft);border-bottom-style:solid}
   </div>
   {{GLOSSARY_TOP_3}}
 </section>
+
+</div><!-- /layout-content -->
+
+<!-- ============ TOC SIDEBAR (sticky, phải) ============ -->
+<aside class="toc-sidebar" id="tocSidebar">
+  <div class="toc-sidebar-head">📑 Mục lục</div>
+  <div class="toc-sidebar-hint">22 phần · click để nhảy đến</div>
+  <ul class="toc-sidebar-list">
+    {{TOC_SIDEBAR_ITEMS}}
+  </ul>
+</aside>
+
+</div><!-- /layout-main -->
 
 <!-- ============ DISCLAIMER (cho nhà đầu tư đọc trước khi ra quyết định) ============ -->
 <div class="disclaimer">
@@ -824,7 +855,7 @@ document.addEventListener('DOMContentLoaded', function(){
     datasets:[{
       label:'Peer (P/E vs growth, bubble=rev)',
       data:[
-        {x:17, y:24, r:18, label:'ORCL'},
+        {x:17, y:24, r:18, label:'{{TICKER}}'},
         {x:15, y:35, r:24, label:'MSFT'},
         {x:11, y:35, r:30, label:'AMZN'},
         {x:14, y:25, r:26, label:'GOOGL'},

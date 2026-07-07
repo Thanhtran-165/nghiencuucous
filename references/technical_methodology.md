@@ -43,15 +43,20 @@ Returns JSON: `timestamp[]`, `indicators.quote[0]` {open, high, low, close, volu
 | BB Position (% trong band) | > 50% | < 50% |
 
 ### Verdict mapping
-| Score | Verdict |
+| Score | Verdict (TECHNICAL only — KHÔNG phải khuyến nghị giao dịch) |
 |---|---|
-| +4 đến +6 | STRONG BUY |
-| +1 đến +3 | BUY |
-| -1 đến 0 | HOLD/NEUTRAL |
-| -3 đến -2 | SELL/REDUCE |
-| -6 đến -4 | STRONG SELL |
+| +4 đến +6 | TECHNICAL STRONG BULLISH |
+| +1 đến +3 | TECHNICAL BULLISH |
+| -1 đến 0 | TECHNICAL NEUTRAL |
+| -3 đến -2 | TECHNICAL BEARISH |
+| -6 đến -4 | TECHNICAL STRONG BEARISH |
 
-**⚠️ Caveat "cổ phiếu chu kỳ"**: Score bearish không tự động = "bán". Kết hợp fundamental. Case ORCL: Tech Score −5 NHƯNG oversold + support zone → có thể accumulation zone, không kết luận "bán".
+**⚠️ GUARDRAIL BẮT BUỘC** (học từ review 7/2026):
+- **KHÔNG dùng "STRONG BUY/BUY/SELL/STRONG SELL"** — đó là khuyến nghị giao dịch, technical alone không đủ.
+- Dùng "TECHNICAL STRONG BULLISH/BEARISH" — mô tả trạng thái kỹ thuật, không phải lệnh.
+- **Verdict technical phải kết hợp fundamental**: "Tech Score +5 NHƯNG valuation Danger Zone → KHÔNG kết luận bullish cho đầu tư 3-5 năm."
+- **Score bearish không tự động = "bán"**: Case ORCL Tech Score −5 NHƯNG oversold + support zone → có thể accumulation zone cho value investor.
+- Technical = 1 input, không phải verdict cuối. Final verdict = fundamental + valuation + technical.
 
 ### Patterns detection (CHỈ khi có evidence)
 - **Double Bottom/Top**: 2 đáy/đỉnh cách ≥5 tuần, chênh <3%

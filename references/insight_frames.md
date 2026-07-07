@@ -25,6 +25,7 @@ Khi Phase 0 detect sector, propose default frames từ bảng dưới. **ĐÂY L
 | **Biotech** (MRNA, VRTX, REGN, GILD) | 5 regulatory + 6 cyclicality | Pipeline binary risk | Phase 3 trials, cash runway, binary outcomes |
 | **Medical Devices / Tools** (MDT, SYK, ABT, TMO, ILMN) | 5 regulatory + 8 ecosystem | Razor-blade model | Installed base, consumable recurring % |
 | **Energy / Oil & Gas** (XOM, CVX, COP, SLB, EOG, PXD) | 6 cyclicality + 7 capital alloc | EV/EBITDA, P/CF, reserve | Reserve life, production growth, FCF, commodity price |
+| **Basic Materials / Mining** (NEM, AEM, B, KGC, AU, FCX) | 6 cyclicality + 2 margin + 11 M&A | AISC, P/NAV, reserve life | AISC/oz, production Moz, reserves, commodity price |
 | **Utilities** (NEE, DUK, SO, AEP) | 5 regulatory + 7 capital alloc | Dividend yield, P/E | Rate base growth, ROE allowed, dividend payout |
 | **REITs** (PLD, AMT, O, SPG, CCI, EQIX) | 7 capital alloc + 5 regulatory | P/FFO, NAV, occupancy | FFO/share, occupancy, WALE, cap rate |
 | **Consumer / Retail / Staples** (COST, WMT, PG, KO, PEP, CL) | 8 ecosystem (brand/distribution) + 7 capital alloc | SSSG, gross margin, inventory | SSSG, gross margin, inventory turns, brand share |

@@ -71,6 +71,23 @@ Terminal Value = FCFF_{N+1} / (WACC - g)   where g = perpetual growth (2-3%)
 
 **Caveat**: DCF với công ty FCF âm (case ORCL: −$23.7B FY26) gần như vô nghĩa — FCF âm → cần project khi nào FCF positive (FY28? FY29?). Flag honestly, hoặc skip DCF nếu không có FCF recovery model rõ.
 
+**Khi skip DCF, dùng các phương pháp thay thế:**
+
+| Phương pháp | Khi nào dùng | Ưu điểm |
+|---|---|---|
+| **Reverse DCF** | FCF âm NHƯNG muốn biết "growth đã baked in giá hiện tại" | Back-out implied growth rate; so sánh vs consensus |
+| **EV/Revenue + EV/Gross Profit** | Growth company (SNOW, PLTR, DDOG) | Không phụ thuộc EPS |
+| **Rule of 40** | SaaS growth (growth % + margin % ≥ 40 = good) | Đơn giản, không cần project |
+| **P/S + forward P/S** | FCF âm, EPS âm — revenue còn ổn | Revenue ít volatile hơn EPS |
+| **Comparable analysis** | Peer multiple trung bình | Market-based, không cần model |
+| **Sum-of-parts** | Multi-segment (Oracle: cloud + license + hardware) | Mỗi segment định giá riêng |
+
+**Workflow khi gặp FCF âm**:
+1. Flag rõ "DCF skip vì FCF âm" trong báo cáo
+2. Chọn 2-3 phương pháp thay thế phù hợp sector (xem Section D)
+3. Report range giá trị từ multi-method thay vì 1 số DCF
+4. Note: "valuation cho công ty FCF âm = nghệ thuật hơn khoa học"
+
 ## C. Other valuation methods
 
 ### EV/EBITDA
