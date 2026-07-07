@@ -180,3 +180,9 @@ mkdir -p ~/ZCodeProject/{ticker-lowercase}-deploy
 CLI đã auth `thanhtran-165` (team `team_dRh23vUGV5tRJlNjlDQelq2E`). Auto-link project, generate `.vercel/project.json`.
 
 Return URL: `https://{project-name}.vercel.app`.
+
+## Xref cross-reference links (BẮT BUỘC — v2.2.6)
+
+Mỗi "Section N" trong text PHẢI là `<a href="#sec-..." class="xref">Section N</a>`. ORCL benchmark có 31 xref. Verify: `grep -c 'class="xref"'` ≥ 10 trước deploy.
+
+Section map: 1=sec-hero, 2=sec-exec, 3=sec-biz, 4=sec-industry, 5=sec-history, 6=sec-segment, 7=sec-thesis, 8=sec-valuation, 9=sec-peer, 10=sec-bs, 11=sec-risk, 12=sec-33k, 13=sec-scenario, 14=sec-checklist, 15-17=sec-insight/moat/supply, 18=sec-tech, 19=sec-tech-profile, 20=sec-analyst, 21=sec-glossary, 22=sec-source.
