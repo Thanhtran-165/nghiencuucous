@@ -258,6 +258,8 @@ Nếu không có flag → chạy full pipeline mặc định (insight frames aut
 
 14. **ADR detection phức tạp hơn nghĩ** — Yahoo field `currency` có thể đã convert ADR sang USD (case NVO: currency=USD nhưng country=Denmark). Phải check CẢ currency + country. Financials gốc trong 10-K vẫn là local currency (DKK/EUR/TWD). Verify Yahoo number vs 10-K — nếu lệch hệ số lớn = sai tỷ giá.
 
+15. **Đặc thù ngành BẮT BUỘC — đọc số tài chính đúng cách** (học từ CTD test VN 7/2026, port sang US) — Đọc số tài chính mà không hiểu bản chất ngành = **bias chắc chắn**. Mỗi ngành có "lens" riêng (Software: ARR/NRR/SBC; Mining: AISC/P/NAV; REITs: P/FFO/WALE; Banks: P/B/NIM/CET1). Phân tích không đọc `references/insight_frames.md` Section I trước = số liệu đúng nhưng kết luận sai. Rule: **hỏi user "đặc thù ngành X là gì?" + WebSearch pitfalls + tạo bảng đặc thù trước khi analyze.**
+
 ## Tham khảo (progressive disclosure)
 
 SKILL.md giữ lean (<500 dòng). Detail nặng đọc reference khi cần:

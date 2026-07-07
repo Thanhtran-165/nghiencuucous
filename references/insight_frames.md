@@ -577,3 +577,127 @@ Skill cũng detect market regime (S&P 500 vs 200-day MA, VIX) để tune tone:
 2. Hỏi user: "Công ty có metric đặc thù nào (AISC, lifting cost, fleet utilization...) cần track?"
 3. Default: dùng P/CF + EV/EBITDA + Frame 6 (cyclicality) + Frame 2 (margin)
 4. Luôn flag: **"P/E cho commodity producer có thể là bẫy chu kỳ — verify EPS ở đâu trong cycle"**
+
+---
+
+## I. ⭐ Đặc thù ngành US — đọc số tài chính đúng cách (BẮT BUỘC — học từ CTD test VN 7/2026)
+
+> **Nguyên tắc cốt lõi**: Đọc số tài chính mà không hiểu bản chất ngành = **bias chắc chắn**.
+> Port từ `equity-research-vn` Section F (v2.2.3), adapt cho đặc thù thị trường US.
+> Section này LIỆT KÊ đặc thù theo ngành — đọc BẮT BUỘC trước khi analyze.
+
+### I.1 Software / Cloud / SaaS (MSFT, ORCL, CRM, ADBE, NOW, SNOW, INTU)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **ARR / NRR** (Annual / Net Revenue Retention) | Chỉ xem revenue growth | NRR > 120% = khách hàng tăng chi tiêu. NRR < 100% = churn |
+| **RPO / backlog** (đặc biệt ORCL $638B) | Treat RPO = revenue chắc chắn | RPO có thể hủy/redeploy. Convert rate theo thời gian |
+| **SBC (Stock-Based Compensation)** | Non-GAAP loại SBC → EPS phồng | Luôn check GAAP EPS. SBC = real cost (pha loãng) |
+| **Capex AI/cloud** (hyperscaler $50-190B/năm) | Treat capex = "đầu tư tăng trưởng" | Capex AI = FCF âm (ORCL −$23.7B, MSFT −$50B). Phải hỏi khi nào ROI |
+| **GAAP vs non-GAAP gap lớn** (ORCL 31%) | Dùng non-GAAP vì "underlying" | GAAP = truth. Non-GAAP che SBC + restructuring |
+| **Consumption-based vs license** | Treat như 1 mảng | Consumption (AWS, Azure) vol; license (Oracle DB) recurring khác |
+| **Rule of 40** (growth + margin) | So sánh P/E với company ổn định | Rule of 40 = chuẩn SaaS. < 40% = underperform |
+| **Customer concentration** (hyperscaler + 1 AI lab) | Không flag | Case ORCL: OpenAI = 1 khách hàng drive thesis |
+
+### I.2 Tech / Semiconductors (NVDA, AAPL, AVGO, TSM, AMD, QCOM)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **Design win / backlog** (NVDA GPU supply) | Treat như "đơn hàng đảm bảo" | Design win = mất 1-2 năm recognize revenue |
+| **Node / foundry dependency** (AAPL → TSMC) | Không hiểu dependency | TSMC = upstream bottleneck. NVDA/AAPL rent foundry |
+| **HBM / memory bottleneck** | Bỏ qua supply chain | HBM3E (Micron, SK Hynix) = GPU supply constraint |
+| **EUV / CoWoS capacity** | Không hiểu TSMC moat | EUV (ASML) + CoWoS (TSMC) = bottleneck công suất |
+| **R&D % revenue** | So sánh với non-tech | R&D > 15% = tech moat (NVDA 27%, QCOM 24%) |
+| **Inventory cycle** (semis) | Treat inventory = ổn định | Semis có inventory cycle đỉnh-đáy rõ |
+| **Fabless vs IDM** | Không phân biệt | Fabless (NVDA, AAPL) = rent foundry; IDM (INTC) = own fab |
+
+### I.3 Gold / Metals mining (NEM, AEM, B, KGC, AU, FCX)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **AISC ($/oz)** | Không biết cost 1 oz | AISC quartile 1 (<$1,200) = competitive. NEM $1,358 |
+| **By-product vs co-product AISC** | Compare ngang hàng sai | By-product (trừ đồng/bạc) thấp hơn co-product. Gap $251 (NEM) |
+| **Reserves (P&P, Moz)** | Treat = tài sản hiện tại | Reserves = ước tính tại giá gold thận trọng ($1,300/oz). Reserve life = years |
+| **Grade decline** (−7-13%/decade) | Không hiểu depleting | Mỗi năm khai thác → reserves giảm. Phải explore/acquire bù |
+| **P/NAV (Price/Net Asset Value)** | Dùng P/E (bị chu kỳ méo) | P/NAV = chuẩn nhất cho miner. NEM ~25% discount |
+| **Real yields (TIPS)** | Không biết driver giá gold | Real yield inverse gold. TIPS > 2% = gold headwind |
+| **Central bank buying** (23 tháng liên) | Bỏ qua structural floor | CB buying = sàn vàng, không liên quan vĩ mô US |
+| **Cyclicality P/E trap** | P/E thấp = rẻ | P/E thấp ở đỉnh giá gold = bẫy. Dùng P/NAV + EV/EBITDA |
+
+### I.4 Oil & Gas (XOM, CVX, COP, OXY, EOG, PXD)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **WTI / Brent price** | Không biết driver revenue | Oil price quyết định 70%+ revenue |
+| **Lifting cost ($/boe)** | Không biết cost | <$15/boe = quartile 1. XOM ~$10 |
+| **Reserve replacement ratio** | Bỏ qua | > 100% = healthy. < 70% = declining |
+| **Finding & Development cost** | Không hiểu F&D | F&D < lifting = good. F&D > price = value destroy |
+| **Cash flow vs earnings** | Treat earnings = tiền | D&A lớn → FCF > net income. Dùng P/CF |
+| **Refining crack spread** (integrated) | Bỏ qua | Crack spread = biên lọc dầu. Biến động mạnh |
+| **Dividend sustainability** | Treat = cố định | Div gắn giá oil. Oil sập → cut div (đã xảy ra 2020) |
+
+### I.5 Banks / Financial (JPM, BAC, GS, MS, WFC, C, BLK)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **P/B + ROE** (không P/E) | Dùng P/E cho bank | P/B = chuẩn. ROE > 12% = good. JPM P/B ~2× |
+| **NIM** (Net Interest Margin) | Không hiểu | NIM = spread lending-depozit. Fed rate decision |
+| **NPL / Provision coverage** | Bỏ qua | NPL < 1% = tốt. Coverage > 150% = healthy |
+| **CET1 / Tier-1 capital** | Không hiểu Basel | CET1 > 12% = well-capitalized |
+| **Trading revenue volatility** | Treat = stable | GS/MS trading revenue biến động quý-quarter |
+| **AOCI** (Available-for-sale securities) | Bỏ qua | Rate tăng → AOCI negative → book value giảm |
+
+### I.6 Healthcare / Pharma / Biotech (JNJ, PFE, MRK, LLY, ABBV, UNH, MRNA)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **Pipeline + patent cliff** | Treat = stable revenue | Patent expire → generic competition → revenue sụt |
+| **Phase 1/2/3 trials** | Không hiểu binary risk | Phase 3 fail = cổ phiếu −50%. Success = +50% |
+| **FDA / PDUFA dates** | Bỏ qua catalyst | FDA approval = catalyst lớn. Reject = disaster |
+| **R&D capitalized vs expensed** | Không phân biệt | Pharma expensed R&D → earnings lower nhưng honest |
+| **P/E vs PEG** (growth) | Dùng P/E alone | PEG < 1.5 = hấp dẫn cho pharma growth |
+| **Orphan drug / niche** | Bỏ qua | Orphan drug = pricing power cao, thị trường nhỏ |
+| **M&A integration** | Treat = accretive | Big pharma M&A thường overpay (goodwill impairment) |
+
+### I.7 REITs (PLD, AMT, O, SPG, CCI, EQIX)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **P/FFO** (Funds From Operations) | Dùng P/E | FFO = chuẩn REIT. P/FFO median lịch sử |
+| **AFFO** (Adjusted FFO) | Bỏ qua | AFFO = FFO − maintenance capex = "real" cash |
+| **Occupancy %** | Không check | > 95% = strong. < 90% = rủi ro |
+| **WALE** (Weighted Average Lease Expiry) | Bỏ qua | WALE > 5 năm = visibility. < 3 năm = roll risk |
+| **Cap rate** (NOI / property value) | Không hiểu | Cap rate cao = yield cao nhưng risk cao |
+| **Same-property cash flow growth** | Bỏ qua | SSSG REITs = driver chính |
+| **Interest rate sensitivity** | Bỏ qua | REITs nhạy cảm rate (debt + dividend yield vs bond) |
+
+### I.8 Consumer / Retail (COST, WMT, PG, KO, NKE, SBUX, HD)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **Same-store-sales growth (SSSG)** | Chỉ xem total revenue | SSSG = driver chính. Total = SSSG + new stores |
+| **Gross margin** | Bỏ qua | GM trend = pricing power. Giảm = private label pressure |
+| **Inventory turnover** | Bỏ qua | Turnover giảm = inventory buildup = rủi ro markdown |
+| **Brand premium vs inertia** | Treat brand = moat bền | Inertia (Coca-Cola restaurants) fragile. Brand (Apple) durable |
+| **Private label threat** (Kirkland, Amazon Basics) | Bỏ qua | Private label gaining share = pricing pressure |
+| **Traffic vs ticket** | Mix lẫn | Traffic giảm + ticket tăng = inflation, không growth thật |
+
+### I.9 EV / Auto / Industrial (TSLA, GM, F, GE, HON, CAT)
+
+| Đặc thù | Bias nếu không hiểu | Đọc đúng cách |
+|---|---|---|
+| **Production volume + margin/unit** | Chỉ xem revenue | Production = driver. Margin/unit = quality |
+| **Capex intensity** | Bỏ qua | Auto capex nặng. Capex/revenue > 8% = high |
+| **Cyclicality (auto demand)** | Treat = growth | Auto demand cyclical. Recession → sụt mạnh |
+| **Battery / EV transition cost** | Bỏ qua | EV capex = future, nhưng eat FCF hiện tại |
+| **Backlog (aerospace/defense)** | Treat = đảm bảo | Backlog có thể cancel nếu program thay đổi |
+
+### I.10 Khi gặp ngành mới không có ở đây
+
+**Handler BẮT BUỘC**:
+1. **Hỏi user**: "Ngành X có đặc thù gì cần chú ý khi đọc số tài chính?" (user có thể biết > AI)
+2. **WebSearch**: "[industry] investing red flags / accounting pitfalls / sector metrics"
+3. **Tạo bảng đặc thù** (như I.1-I.9) trước khi analyze
+4. **Flag bias có thể mắc** ở đầu báo cáo
+
+**Rule cốt lõi**: Không có "template 1 size fits all". Mỗi ngành có lens riêng. Phân tích không hiểu đặc thù = số liệu đúng nhưng kết luận sai.
